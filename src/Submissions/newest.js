@@ -21,7 +21,7 @@ class Newest extends Component {
   }
 
   render() {
-
+    console.log(window.location);
     var{ isLoaded, items} = this.state
 
     if (!isLoaded) {

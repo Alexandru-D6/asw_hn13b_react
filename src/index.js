@@ -24,8 +24,8 @@ root.render(
     <Router>
       <Routes>
         <Route path="/news" element={<News/>}/>
-        <Route path="/newest" element={<Newest/>}/>
-        <Route exact path="/user" element={<Profile/>}/>
+        <Route path="/newest/:id" element={<Newest/>}/>
+        <Route path="/user" element={<Profile/>}/>
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
