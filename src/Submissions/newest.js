@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-class News extends Component {
+class Newest extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +10,7 @@ class News extends Component {
   }
 
   componentDidMount() {
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/news')
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/newest')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -30,7 +28,7 @@ class News extends Component {
       return <div>Loading....</div>
     }else {
       return (
-        <div className="App">
+        <div className="newest">
           
           <ul>
             {items.map(item => (
@@ -46,4 +44,5 @@ class News extends Component {
     
   }
 }
-export default App;
+
+export default Newest;
