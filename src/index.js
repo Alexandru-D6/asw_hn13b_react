@@ -12,6 +12,8 @@ import {
 import Newest from "./Submissions/newest"
 import News from "./Submissions/News"
 
+import Profile from "./Users/Profile"
+
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
 
@@ -23,6 +25,7 @@ root.render(
       <Routes>
         <Route path="/news" element={<News/>}/>
         <Route path="/newest" element={<Newest/>}/>
+        <Route exact path="/user" element={<Profile/>}/>
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>

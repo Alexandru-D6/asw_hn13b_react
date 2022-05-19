@@ -25,6 +25,14 @@ const Navbar = () => {
                     </li>
                 </ul>
             </div>
+
+            <div style={{display: 'flex', justifyContent:'flex-end', verticalAlign: 'center'}}>
+                <ul>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/user?id=ElectrikeOfficial">ElectrikeOfficial</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </div>
   )
