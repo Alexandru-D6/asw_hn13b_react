@@ -12,6 +12,8 @@ import {
 import Newest from "./Submissions/Newest"
 import News from "./Submissions/News"
 
+import Threads from "./Comments/Threads"
+
 import Testing from "./Submissions/Testing"
 
 import "bootstrap/dist/css/bootstrap.min.css"
@@ -26,6 +28,7 @@ root.render(
         <Route path="/news" element={<News/>}/>
         <Route path="/newest" element={<Newest/>}/>
         <Route path="/user" element={<Testing/>}/>
+        <Route path="/threads" element={<Threads/>}/>
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
