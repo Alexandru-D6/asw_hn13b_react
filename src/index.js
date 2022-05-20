@@ -13,6 +13,7 @@ import Newest from "./Submissions/Newest"
 import News from "./Submissions/News"
 
 import Submit from "./Submissions/Submit"
+import Item from "./Submissions/Item"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';

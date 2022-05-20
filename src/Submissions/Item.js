@@ -16,41 +16,117 @@ function DisplayErrors(props) {
     return (<tr></tr>)
 }
 
-class AboutForm extends Component {
+class Submission extends Component {
+    constructor(props) {
+        super(props);
+        
+    }
+
+    render() {
+        return (<h2> Aqui viene una submission </h2>)
+    }
+}
+
+class Comment extends Comment {
+    constructor(props) {
+        super(props);
+        this.state = {
+            /*id: props.id,
+            title: props.title,
+            url: props.url,
+            text: props.text,
+            created_at: props.created_at,
+            UpVotes: props.UpVotes,
+            author_username: props.author_username,*/
+            comment: props.comment,
+            userUpvoted: props.userUpvoted,
+        };
+    
+    }
+
+    render() {
+        return (
+            <tr class="athing" id=<%=comment.id%>>
+                <td valign="top" class="votelinks">
+                    <center>
+                    <% if user_signed_in? && current_user.name == comment.author%>
+                        <font color="#ff6600">*</font>
+                    <%else%>
+                        <% if user_signed_in?  && (current_user.LikedComments.detect{|e| e.to_i == comment.id.to_i}.nil?)%>
+                        <%= link_to "▲", upvote_comment_path(comment, url: url), method: :put%>
+                        <%else%>
+                        <%if !user_signed_in? %>
+                            <%= link_to "▲", upvote_comment_path(comment, url: url), method: :put%>
+                        <%end%>
+                        <%end%>
+                    <%end%>
+                    
+                    </center>
+                </td>
+                
+                <td class="subtext">
+                    <%= link_to comment.author, "/user?id="+comment.author, url: url%>
+                    <span class="age" title=<%comment.created_at%>>
+                    <%= link_to distance_of_time_in_words(comment.created_at, Time.new) + " ago", "/reply?id="+comment.id.to_s, url: url%>
+                    </span> 
+                    <span id=<%=comment.id.to_s%>></span> | 
+                    
+                    <% if comment.id_comment_father == 0 %>
+                    <%= link_to "parent", "/item?id="+comment.id_submission.to_s, url: url%> |
+                    <% else %>
+                    <%= link_to "parent", "/reply?id="+comment.id_comment_father.to_s, url: url%> |
+                    <% end %>
+                    <% if user_signed_in? && comment.author == current_user.name %>
+                    <%= link_to "edit", "/comments/"+comment.id.to_s+'/edit', url: url%> |
+                    <%= link_to "delete", "/delete_comment?id="+comment.id.to_s, url: url%> |
+                    <%end%>
+
+                    <% if user_signed_in? && !(current_user.LikedComments.detect{|e| e.to_i == comment.id.to_i}.nil?) %>
+                    <%= link_to "unvote", unvote_comment_path(comment, url: url), method: :put%> |
+                    <%end%>
+                    <%= link_to "context", "/item?id="+comment.id_submission.to_s, url: url%> |
+                    <%= link_to title_submission, "/item?id="+comment.id_submission.to_s, url: url%> |
+                    
+                </td>
+                </tr>
+                <tr>
+                <td></td>
+                <td>
+                    <span class="commtext c00">
+                    <%=comment.comment%>
+                    </span>
+                </td>
+                </tr>
+        )
+    }
+}
+
+class CommentForm extends Component {
     constructor(props) {
       super(props);
       this.state = {
-            author_username: process.env.REACT_APP_API_KEY_NAME,
-            title: "",
-            url: "",
-            text: "",
+            comment: "",
             status: 200,
             error: "",
             message: "",
         };
   
-      this.handleChangeOnTitle = this.handleChangeOnTitle.bind(this);
-      this.handleChangeOnUrl = this.handleChangeOnUrl.bind(this);
-      this.handleChangeOnText = this.handleChangeOnText.bind(this);
+      this.handleChangeOnComment = this.handleChangeOnComment.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
-    handleChangeOnTitle(event) {
-        this.setState({title: event.target.value});
-    }
-
-    handleChangeOnUrl(event) {
-        this.setState({url: event.target.value});
-    }
-
-    handleChangeOnText(event) {
-        this.setState({text: event.target.value});
+    handleChangeOnComment(event) {
+        this.setState({comment: event.target.value});
     }
 
   
     handleSubmit(event) {
         event.preventDefault();
-        console.log(JSON.stringify({title: this.state.title, url: this.state.url, text: this.state.text}))
+
+        var url = new URL(window.location.href)
+        let id = url.searchParams.get("id")
+
+        console.log(JSON.stringify({id_submission: id, comment: this.state.comment}))
         const requestOpt = {
             method: 'POST',
             headers: {
@@ -58,9 +134,9 @@ class AboutForm extends Component {
                 'accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({title: this.state.title, text: this.state.text, url: this.state.url})
+            body: JSON.stringify({id_submission: id, comment: this.state.comment})
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/create", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comments", requestOpt)
         .then(res => res.json())
         .then(json => {
             this.setState({
@@ -70,7 +146,7 @@ class AboutForm extends Component {
                 message: json.message
             })
             if (json.status === 200 || json.status === 201 || json.status === 202 || json.status === 203) {
-                window.location.replace(window.location.origin + "/News")
+                window.location.reload()
             }
         })
     }
@@ -95,43 +171,18 @@ class AboutForm extends Component {
                         <tbody>
                             
                             <tr>
-                                <td>title</td>
-                                <td><textarea type="text" value={this.state.title} onChange={this.handleChangeOnTitle} cols={70} rows={1}/></td>
-                            </tr>
-                            
-                            <tr>
-                                <td>url</td>
-                                <td><textarea type="text" value={this.state.url} onChange={this.handleChangeOnUrl} cols={70} rows={1}/></td>
-                            </tr>
-                            
-                            <tr>
-                            <td></td>
-                            <td><b>or</b></td>
-                            </tr>
-                            
-                            <tr>
-                                <td>text</td>
-                                <td><textarea type="text" value={this.state.text} onChange={this.handleChangeOnText} cols={70} rows={5}/></td>
+                                <td></td>
+                                <td><textarea type="text" value={this.state.comment} onChange={this.handleChangeOnComment} cols={70} rows={5}/></td>
                             </tr>
                             
                             <tr>
                                 <td></td>
                                 <td className="actions">
-                                    <input type="submit" value="Submit" />
+                                    <input type="submit" value="Add Comment"/>
                                 </td>
                             </tr>
                             
                             <tr><td><br></br></td></tr>
-                            
-                            <tr>
-                            <td></td>
-                            <td>Leave url blank to submit a question for discussion. If there is no url, the text (if any) will appear at the top of the thread.</td>
-                            </tr>
-                            
-                            <tr>
-                            <td></td>
-                            <td>You can also submit via <a href='/enlace'>bookmarklet</a></td>
-                            </tr>
                         
                         </tbody>
                     </table>
@@ -175,13 +226,15 @@ class Item extends Component {
     }
 
     render() {
-        var{ isLoaded} = this.state
+        var{ isLoaded, submission, comments} = this.state
 
         if (!isLoaded) {
         return <div>Loading....</div>
         }else {
         return ( //html
             <div className="Profile">
+                <Submission/>
+                <CommentForm/>
             </div>
         );
         }
