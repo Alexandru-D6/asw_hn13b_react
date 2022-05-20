@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
+import '../CSS/App.css';
+
+import { Routes, Route, useNavigate} from "react-router-dom";
+
+function oneSubmissioninList(){
+  return{
+
+  }
+}
 
 class News extends Component {
   constructor(props) {
@@ -31,19 +38,21 @@ class News extends Component {
     }else {
       return (
         <div className="App">
-          
+          <table>
+
+          </table>
           <ul>
             {items.map(item => (
-              <li key={item.id}>
+              <tr key={item.id}>
                 {item.title}
-              </li>
+                {item.author}
+              </tr>
             ))}
           </ul>
-
         </div>
       );
     }
     
   }
 }
-export default App;
+export default News;
