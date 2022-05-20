@@ -11,6 +11,7 @@ import {
 
 import Newest from "./Submissions/Newest"
 import News from "./Submissions/News"
+import Ask from "./Submissions/Ask"
 
 import Testing from "./Submissions/Testing"
 
@@ -32,6 +33,7 @@ root.render(
       <Routes>
         <Route path="/news" element={<News/>}/>
         <Route path="/newest" element={<Newest/>}/>
+        <Route path="/ask" element={<Ask/>}/>
         <Route path="/user" element={<Testing/>}/>
         <Route path="" element={<News/>}/>
       </Routes>

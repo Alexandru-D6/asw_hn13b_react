@@ -89,6 +89,7 @@ class Newest extends Component {
   }
 
   render() {
+
     var{ isLoaded, items, links} = this.state
     var cont = 0
     var nomauth = "ElectrikeOfficial"
@@ -97,9 +98,12 @@ class Newest extends Component {
     }else {
       return (
         <div className="App">
-          <ul>
+            <ul>
             {items.map(item => (
-              <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1} />
+              <tbody>
+                <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1}/>
+                
+              </tbody> 
             ))}
           </ul>
         </div>
