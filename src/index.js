@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './CSS/index.css';
 import reportWebVitals from './reportWebVitals';
 
 import {
@@ -9,10 +9,10 @@ import {
   Route,
 } from "react-router-dom";
 
-import Newest from "./Submissions/newest"
+import Newest from "./Submissions/Newest"
 import News from "./Submissions/News"
 
-import Testing from "./Users/Testing"
+import Testing from "./Submissions/Testing"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
@@ -24,7 +24,7 @@ root.render(
     <Router>
       <Routes>
         <Route path="/news" element={<News/>}/>
-        <Route path="/newest/:id" element={<Newest/>}/>
+        <Route path="/newest" element={<Newest/>}/>
         <Route path="/user" element={<Testing/>}/>
         <Route path="" element={<News/>}/>
       </Routes>

@@ -12,7 +12,7 @@ const Navbar = () => {
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                     <li className="nav-item active">
-                        <a className="nav-link" href="/newest/23">New</a>
+                        <a className="nav-link" href="/newest">New</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/threads">Comments</a>

@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+import '../CSS/App.css';
+import '../CSS/ListSubmissions.css';
+
+import { Routes, Route, useNavigate} from "react-router-dom";
 
 class Newest extends Component {
   constructor(props) {
@@ -21,28 +25,64 @@ class Newest extends Component {
   }
 
   render() {
-    console.log(window.location);
-    var{ isLoaded, items} = this.state
 
+    var{ isLoaded, items} = this.state
+    var cont = 0
     if (!isLoaded) {
       return <div>Loading....</div>
     }else {
       return (
-        <div className="newest">
+        <div className="App">
           
           <ul>
+          
             {items.map(item => (
-              <li key={item.id}>
-                {item.title}
-              </li>
+              <table>
+                <tr class="athing" id>
+                  <td align="right" valign="top" class="title">
+                    <span class="rank">{cont = cont + 1}.</span>
+                  </td>   
+      
+                  <td valign="top" class="votelinks">
+                    <center>
+                    <font color="#ff6600">*</font>
+                    {"▲"}
+                    </center>
+                  </td>
+      
+                  <td class="title">
+                    <a href={item.url} class="titlelink">{item.title}</a>
+                    <span class="sitebit comhead">
+                      {item.url}
+                      <a href={item.url}>
+                        <span class="sitestr">{item.url}</span>
+                      </a>
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2"></td>
+                  <td class="subtext">
+                    <span class="score">{item.UpVotes}</span> by 
+                    {item.author_username}
+                    <span class="age" title={item.created_at}>
+                      <a href={item.url}>ffffff ago</a>
+                    </span> 
+                    <span id="unv_30782735"></span> | 
+                    {"edit"}
+                    {"delete"}
+                    {"unvote"}
+                    {"comments"}
+                  </td>
+                </tr>
+                <span>&nbsp;</span>
+              </table>
             ))}
           </ul>
-
         </div>
       );
     }
     
   }
 }
-
 export default Newest;
