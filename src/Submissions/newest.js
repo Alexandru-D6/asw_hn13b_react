@@ -102,7 +102,7 @@ class Newest extends Component {
             {items.map(item => (
               <tbody>
                 <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1}/>
-                
+    
               </tbody> 
             ))}
           </ul>
