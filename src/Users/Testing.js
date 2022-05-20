@@ -1,8 +1,6 @@
-import React, {Component, useState, useEffect} from 'react';
-import PropTypes from "prop-types";
-import {withRouter, searchParams} from "react-router";
+import React, {Component} from 'react';
 
-function genComment() {
+function links() {
     return(
         <h3>Comment</h3>
     )
@@ -13,11 +11,9 @@ class AboutForm extends Component {
       super(props);
       this.state = {
           about: '',
-          likes: 0,
         };
   
       this.handleChangeOnAbout = this.handleChangeOnAbout.bind(this);
-      this.handleChangeOnLikes = this.handleChangeOnLikes.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
@@ -25,34 +21,42 @@ class AboutForm extends Component {
         this.setState({about: event.target.value});
     }
 
-    handleChangeOnLikes(event) {
-        this.setState({likes: event.target.value});
-    }
   
     handleSubmit(event) {
-      alert('A name was submitted: ' + this.state.about + " has " + this.state.likes);
+      alert('A name was submitted: ' + this.state.about);
       event.preventDefault();
     }
   
     render() {
-      return (
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            About:
-            <input type="text" value={this.state.about} onChange={this.handleChangeOnAbout} />
-          </label>
+        const {user} = this.props.user
+        return (
+            <form onSubmit={this.handleSubmit}>
+                    <label>
+                        <td>{process.env.REACT_APP_API_KEY}</td>
+                        <td>{process.env.REACT_APP_API_KEY_NAME}</td>
+                    </label>
+                    
+                    <label>
+                        <td>user:</td>
+                        <td>{user.name}</td>
+                    </label>
 
-          <label>
-            Likes:
-            <input type="number" value={this.state.likes} onChange={this.handleChangeOnLikes}/>
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
-      );
+                    <label>
+                        <td>About:</td>
+                        <td><textarea type="text" value={this.state.about} onChange={this.handleChangeOnAbout} cols={70} rows={5}/></td>
+                    </label>
+                    
+                    <label>
+                        <td className="actions">
+                            <input type="submit" value="Submit" />
+                        </td>
+                    </label>
+            </form>
+        );
     }
 }
 
-class Profile extends Component {
+class Testing extends Component {
 
     constructor(props) {
         super(props);
@@ -108,11 +112,11 @@ class Profile extends Component {
         return ( //html
             <div className="Profile">
                 <h2>Profile</h2>
-                {<AboutForm />}
+                {<AboutForm user={items}/>}
             </div>
         );
         }
         
     }
 }
-export default Profile;
+export default Testing;

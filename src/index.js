@@ -12,7 +12,7 @@ import {
 import Newest from "./Submissions/newest"
 import News from "./Submissions/News"
 
-import Profile from "./Users/Profile"
+import Testing from "./Users/Testing"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
@@ -25,7 +25,7 @@ root.render(
       <Routes>
         <Route path="/news" element={<News/>}/>
         <Route path="/newest/:id" element={<Newest/>}/>
-        <Route path="/user" element={<Profile/>}/>
+        <Route path="/user" element={<Testing/>}/>
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
