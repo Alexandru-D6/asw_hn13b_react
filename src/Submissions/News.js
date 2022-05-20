@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
+//import logo from './logo.svg';
+import './News.css';
 
-import { Routes, Route, useNavigate} from "react-router-dom";
-
-class App extends Component {
+class News extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +12,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/newest')
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/news')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -31,8 +29,8 @@ class App extends Component {
     if (!isLoaded) {
       return <div>Loading....</div>
     }else {
-      return (
-        <div className="App">
+      return ( //html
+        <div className="News">
           
           <ul>
             {items.map(item => (
@@ -47,4 +45,4 @@ class App extends Component {
     
   }
 }
-export default App;
+export default News;
