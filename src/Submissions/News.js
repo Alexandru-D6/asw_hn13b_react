@@ -39,16 +39,15 @@ class News extends Component {
       return (
         <div className="App">
           <table>
-
+            <tbody>
+              {items.map(item => (
+                  <tr key={item.id}>
+                    <td>{item.title}</td>
+                    <td>{item.author_username}</td>
+                  </tr>
+                ))}
+            </tbody>
           </table>
-          <ul>
-            {items.map(item => (
-              <tr key={item.id}>
-                {item.title}
-                {item.author}
-              </tr>
-            ))}
-          </ul>
         </div>
       );
     }
