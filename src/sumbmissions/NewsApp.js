@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
-import './CSS/App.css';
+import './App.css';
 
-class News extends Component {
+import { Routes, Route, useNavigate} from "react-router-dom";
+
+function oneSubmissioninList(){
+  return{
+
+  }
+}
+
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,15 +37,17 @@ class News extends Component {
     if (!isLoaded) {
       return <div>Loading....</div>
     }else {
-      return ( //html
-        <div className="News">
-          
+      return (
+        <div className="App">
+          <table>
+
+          </table>
           <ul>
             {items.map(item => (
-              <li key={item.id}>
+              <tr key={item.id}>
                 {item.title}
                 {item.author}
-              </li>
+              </tr>
             ))}
           </ul>
         </div>
@@ -46,4 +56,4 @@ class News extends Component {
     
   }
 }
-export default News;
+export default App;
