@@ -2,6 +2,55 @@ import React, {Component, useState, useEffect} from 'react';
 import PropTypes from "prop-types";
 import {withRouter, searchParams} from "react-router";
 
+function genComment() {
+    return(
+        <h3>Comment</h3>
+    )
+}
+
+class AboutForm extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+          about: '',
+          likes: 0,
+        };
+  
+      this.handleChangeOnAbout = this.handleChangeOnAbout.bind(this);
+      this.handleChangeOnLikes = this.handleChangeOnLikes.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    }
+  
+    handleChangeOnAbout(event) {
+        this.setState({about: event.target.value});
+    }
+
+    handleChangeOnLikes(event) {
+        this.setState({likes: event.target.value});
+    }
+  
+    handleSubmit(event) {
+      alert('A name was submitted: ' + this.state.about + " has " + this.state.likes);
+      event.preventDefault();
+    }
+  
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            About:
+            <input type="text" value={this.state.about} onChange={this.handleChangeOnAbout} />
+          </label>
+
+          <label>
+            Likes:
+            <input type="number" value={this.state.likes} onChange={this.handleChangeOnLikes}/>
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+      );
+    }
+}
 
 class Profile extends Component {
 
@@ -16,12 +65,6 @@ class Profile extends Component {
         query: [],
         }
     }
-
-    /*static propTypes = {
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
-    }*/
 
     componentDidMount() {
         var url = new URL(window.location.href)
@@ -54,10 +97,8 @@ class Profile extends Component {
     }
 
     render() {
-        //const { match, location, history } = this.props
-        //console.log(location.pathname);
-        //console.log(window.location.search.replace('?', "").split('&').find(element => element.split('=').at(0) == "id"));
         var{ isLoaded, items, state, error, message} = this.state
+        console.log(items);
         console.log(state);
         console.log(error);
 
@@ -67,6 +108,7 @@ class Profile extends Component {
         return ( //html
             <div className="Profile">
                 <h2>Profile</h2>
+                {<AboutForm />}
             </div>
         );
         }
