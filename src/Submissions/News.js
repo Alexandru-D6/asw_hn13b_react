@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../CSS/App.css';
+import DisplaySubmissionInList from './Newest.js'
 
 import { Routes, Route, useNavigate} from "react-router-dom";
 
@@ -15,6 +16,7 @@ class News extends Component {
     this.state = {
       items: [],
       isLoaded: false,
+      links: []
     }
   }
 
@@ -25,34 +27,28 @@ class News extends Component {
         this.setState({
           isLoaded: true,
           items: json.submissions,
+          links: json.short_url
         })
       })
   }
 
   render() {
-
-    var{ isLoaded, items} = this.state
-
+    var{ isLoaded, items, links} = this.state
+    var cont = 0
+    var nomauth = "ElectrikeOfficial"
     if (!isLoaded) {
       return <div>Loading....</div>
     }else {
       return (
         <div className="App">
-          <table>
-
-          </table>
           <ul>
             {items.map(item => (
-              <tr key={item.id}>
-                {item.title}
-                {item.author}
-              </tr>
+              <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1} />
             ))}
           </ul>
         </div>
       );
     }
-    
   }
 }
 export default News;
