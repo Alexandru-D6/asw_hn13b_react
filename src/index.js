@@ -14,6 +14,9 @@ import News from "./Submissions/News"
 
 import Submit from "./Submissions/Submit"
 import Item from "./Submissions/Item"
+import Reply from "./Comments/Reply"
+import CommentsEdit from "./Comments/Edit"
+import CommentsDelete from "./Comments/Delete"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
@@ -28,6 +31,9 @@ root.render(
         <Route path="/newest" element={<Newest/>}/>
         <Route path="/submit" element={<Submit/>}/>
         <Route path="/item" element={<Item/>}/>
+        <Route path="/reply" element={<Reply/>}/>
+        <Route path="/comments/edit" element={<CommentsEdit/>}/>
+        <Route path="/comments/delete" element={<CommentsDelete/>}/>
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>

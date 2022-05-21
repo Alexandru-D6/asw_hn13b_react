@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import "../CSS/Item.css"
-import CommentForm from "../Comments/CommentForm"
-import CommentTree from "../Comments/CommentTree"
+import ReplyForm from "../Comments/ReplyForm"
+import Comment from "../Comments/Comment"
 
 function DisplayErrorsNoTable(props) {
     var status = props.status
     var error = props.error
     var message = props.message
 
+    console.log(status)
     if (status !== 200 && status !== 201 && status !== 202 && status !== 203 && status !== undefined) {
         return(
             <span style={{color: "red"}}>{error + ": " + message}</span>
@@ -17,25 +18,20 @@ function DisplayErrorsNoTable(props) {
     return (<span></span>)
 }
 
-class Submission extends Component {
-    render() {
-        return (<h2> Aqui viene una submission </h2>)
-    }
-}
-
-class Item extends Component {
+class Reply extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isLoaded1: false,
             isLoaded2: false,
-            submission: {},
-            comments: [],
+            title_submission: "",
+            comment: {},
             status: 200,
             error: "",
             message: "",
             upvotedComments: [],
+
         }
     }
 
@@ -43,17 +39,29 @@ class Item extends Component {
         var url = new URL(window.location.href)
         let id = url.searchParams.get("id")
 
-        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + id)
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/' + id)
             .then(res => res.json())
             .then(json => {
                 this.setState({
-                    isLoaded1: true,
-                    submission: json.submission,
-                    comments: json.comments,
+                    isLoaded1: false,
+                    comment: json.comment,
                     status: json.status,
                     error: json.error,
                     message: json.message,
                 })
+                return json
+            }).then(json => {
+                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + json.comment.id_submission)
+                    .then(res => res.json())
+                    .then(json => {
+                        this.setState({
+                            isLoaded1: true,
+                            title_submission: json.submission.title,
+                            status: json.status,
+                            error: json.error,
+                            message: json.message,
+                        })
+                    })
             })
         
         const requestOpt = {
@@ -88,18 +96,14 @@ class Item extends Component {
         if (!isLoaded1 && !isLoaded2) {
         return <div>Loading....</div>
         }else {
-            console.log(window.location)
             return ( //html
                 <div className="Profile" align="center">
-                    
+                    <br></br>
                     <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
 
-                    <Submission/>
-                    <CommentForm/>
-
-                    {this.state.comments.map((comment) => (
-                        <CommentTree key={comment.created_at} paramKey={comment.created_at+1} userUpvoted={this.state.upvotedComments} title_submission={this.state.submission.title} comment={comment}/>
-                    ))}
+                    <Comment userUpvoted={this.state.upvotedComments.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/>
+                    
+                    <ReplyForm originalSubmission={this.state.comment.id_submission}/>
 
                 </div>
             );
@@ -107,4 +111,4 @@ class Item extends Component {
         
     }
 }
-export default Item;
+export default Reply;
