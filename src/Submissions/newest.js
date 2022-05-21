@@ -1,89 +1,25 @@
 import React, {Component} from 'react';
 import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
-import moment from 'moment';
+import SubmissionInList from '../Submissions/SubmissionInList';
 
 
 import { Routes, Route, useNavigate} from "react-router-dom";
-function DisplaySubmissionInList(props){
-  var cont = props.cont
-  var nomauth = props.author
-  var item = props.item
-  var shorturl = props.link
-  var voted = props.voted
-  return(  
-         
-    <table>
-      <span>&nbsp;</span>
-      <tr class="athing" id>
 
-        <td align="right"  class="title">
-          <span class="rank">{cont}.</span>
-        </td>   
+function DisplayErrorsNoTable(props) {
+  var status = props.status
+  var error = props.error
+  var message = props.message
 
-        <td valign="bottom" class="votelinks"> 
-          {(nomauth) === item.author_username  ? 
-            <font color="#ff6600"> {"*"} </font>
-            :
-            isVoted(item.id, voted, item)?
-            <a>{'\u00A0'} </a>
-            :
-            <a class="votebutton" href={"/edit"}>▲ </a>
-          }
-              
-        </td>
-
-        <td class="title">
-          <a href={(item.url=== ""? "/item":item.url)} class="title">{item.title}</a>
-          <span class="sitebit comhead">
-            {" "}
-            <a class="sublink" href={item.url}>
-              {(shorturl !== "")?"("+shorturl+")":"" }
-            </a>
-          </span>
-        </td>
-
-      </tr>
-      <tr>
-        <td colspan="2"></td>
-        <td class="subtext">
-          <span>{item.UpVotes}</span>{" by "}
-          <a class="subtext" href={"/item"}>{item.author_username}</a>
-          <span title={item.created_at}>
-            {" "}
-            <a class="subtext" href={"/item"}>{moment.utc(item.created_at).local().startOf('seconds').fromNow()}</a>
-          </span> 
-          <span id=""></span>{" | "}  
-          {(nomauth) === item.author_username? 
-          <a>
-            <a class="subtext" href={"/edit"}>edit</a>{" | "}
-            <a class="subtext" href={"/delete"}>delete</a>{" | "}
-          </a>
-          :
-          <a>
-            <a class="subtext" href={"/unvote"}>unvote</a>{" | "}
-          </a>
-          }
-          <a class="subtext" href={"/item"}>comments</a>
-        </td>
-
-      </tr>
-      
-    </table>
-  )
-}
-function isVoted(id, voted, item){
-  var bool = false
-  console.log(id)
-  console.log(voted.length)
-  for(var i = 0; i < voted.length; i++){
-    if(id === voted[i].id){
-      bool = true
-    }
+  if (status !== 200 && status !== 201 && status !== 202 && status !== 203 && status !== undefined) {
+      return(
+          <span style={{color: "red"}}>{error + ": " + message}</span>
+      )
   }
-  return bool
-  
+
+  return (<span></span>)
 }
+
 class Newest extends Component {
   constructor(props) {
     super(props);
@@ -92,7 +28,10 @@ class Newest extends Component {
       links: [],
       isLoaded: false,
       isLoadedC: false,
-      voted: []
+      voted: [],
+      status: 200,
+      error: "",
+      message: "",
     }
   }
 
@@ -104,37 +43,50 @@ class Newest extends Component {
           isLoaded: true,
           items: json.submissions,
           links: json.shorturl,
+          status: json.status,
+          error: json.error,
+          message: json.message,
         })
       })
       const requestOptions = {
         method: 'GET',
-        headers: { 'x-api-key': '7075f288b27f27ba6bcfc755b9cc64fb20ad0bd4' },
+        headers: { 'x-api-key': process.env.REACT_APP_API_KEY },
     };
       fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOptions)
       .then(res => res.json())
       .then(json => {
         this.setState({
+          voted: json.submissions,
+          status: json.status,
+          error: json.error,
+          message: json.message,
           isLoadedC: true,
-          voted: json.submissions
         })
       })
   }
 
   render() {
 
-    var{ isLoaded, items, links,isLoadedC, voted} = this.state
+    var{ isLoaded, items, links,isLoadedC, } = this.state
     var cont = 0
-    var nomauth = "Alvarorodri"
     if (!isLoaded && !isLoadedC) {
       return <div>Loading....</div>
     }else {
       return (
         <div className="App">
+          <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
             <ul>
             {items.map(item => (
-              <tbody>
-                <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1} voted={voted}/>
-              </tbody> 
+              <li key={item.id}>
+                <table>
+                  <SubmissionInList 
+                    submission=  {item}
+                    shorturl= {links[cont]}
+                    cont = {cont=cont+1}
+                    userUpvoted ={this.state.voted.find(data => data.id === item.id)}
+                  />
+                </table>
+              </li>
             ))}
           </ul>
         </div>
