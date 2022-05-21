@@ -10,7 +10,9 @@ function DisplaySubmissionInList(props){
   var nomauth = props.author
   var item = props.item
   var shorturl = props.link
-  return(              
+  var voted = props.voted
+  return(  
+         
     <table>
       <span>&nbsp;</span>
       <tr class="athing" id>
@@ -20,11 +22,15 @@ function DisplaySubmissionInList(props){
         </td>   
 
         <td valign="bottom" class="votelinks"> 
-          {( nomauth) === item.author_username? 
-          <font color="#ff6600"> {"*"} </font>
-          :
-          <a class="votebutton" href={"/edit"}>▲ </a>
+          {(nomauth) === item.author_username  ? 
+            <font color="#ff6600"> {"*"} </font>
+            :
+            isVoted(item.id, voted, item)?
+            <a>{'\u00A0'} </a>
+            :
+            <a class="votebutton" href={"/edit"}>▲ </a>
           }
+              
         </td>
 
         <td class="title">
@@ -66,6 +72,18 @@ function DisplaySubmissionInList(props){
     </table>
   )
 }
+function isVoted(id, voted, item){
+  var bool = false
+  console.log(id)
+  console.log(voted.length)
+  for(var i = 0; i < voted.length; i++){
+    if(id === voted[i].id){
+      bool = true
+    }
+  }
+  return bool
+  
+}
 class Newest extends Component {
   constructor(props) {
     super(props);
@@ -73,6 +91,8 @@ class Newest extends Component {
       items: [],
       links: [],
       isLoaded: false,
+      isLoadedC: false,
+      voted: []
     }
   }
 
@@ -86,14 +106,26 @@ class Newest extends Component {
           links: json.shorturl,
         })
       })
+      const requestOptions = {
+        method: 'GET',
+        headers: { 'x-api-key': '7075f288b27f27ba6bcfc755b9cc64fb20ad0bd4' },
+    };
+      fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOptions)
+      .then(res => res.json())
+      .then(json => {
+        this.setState({
+          isLoadedC: true,
+          voted: json.submissions
+        })
+      })
   }
 
   render() {
 
-    var{ isLoaded, items, links} = this.state
+    var{ isLoaded, items, links,isLoadedC, voted} = this.state
     var cont = 0
-    var nomauth = "ElectrikeOfficial"
-    if (!isLoaded) {
+    var nomauth = "Alvarorodri"
+    if (!isLoaded && !isLoadedC) {
       return <div>Loading....</div>
     }else {
       return (
@@ -101,8 +133,7 @@ class Newest extends Component {
             <ul>
             {items.map(item => (
               <tbody>
-                <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1}/>
-    
+                <DisplaySubmissionInList item={item} author={nomauth} link = {links[cont]} cont={cont = cont + 1} voted={voted}/>
               </tbody> 
             ))}
           </ul>
