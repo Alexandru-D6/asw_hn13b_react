@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import "../CSS/Item.css"
 
 function DisplayErrors(props) {
     var status = props.status
@@ -13,90 +14,204 @@ function DisplayErrors(props) {
         )
     }
 
-    return (<tr></tr>)
+    return (<tr><td></td></tr>)
+}
+
+function DisplayErrorsNoTable(props) {
+    var status = props.status
+    var error = props.error
+    var message = props.message
+
+    if (status !== 200 && status !== 201 && status !== 202 && status !== 203) {
+        return(
+            <span style={{color: "red"}}>{error + ": " + message}</span>
+        )
+    }
+
+    return (<span></span>)
 }
 
 class Submission extends Component {
-    constructor(props) {
-        super(props);
-        
-    }
-
     render() {
         return (<h2> Aqui viene una submission </h2>)
     }
 }
 
-class Comment extends Comment {
+class Comment extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            /*id: props.id,
-            title: props.title,
-            url: props.url,
-            text: props.text,
-            created_at: props.created_at,
-            UpVotes: props.UpVotes,
-            author_username: props.author_username,*/
+            isLoaded: false,
             comment: props.comment,
             userUpvoted: props.userUpvoted,
+            title_submission: props.title_submission
+        };
+
+        this.handleUpVote = this.handleUpVote.bind(this);
+        this.handleUnVote = this.handleUnVote.bind(this);
+    
+    }
+
+    handleUpVote(event) {
+        event.preventDefault();
+        const requestOpt = {
+            method: 'PUT',
+            headers: {
+                'X-API-KEY': process.env.REACT_APP_API_KEY,
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/" + this.state.comment.id + "/upvote", requestOpt)
+        .then(res => res.json())
+        .then(json => {
+            window.location.reload()
+        })
+    }
+
+    handleUnVote(event) {
+        event.preventDefault();
+        const requestOpt = {
+            method: 'PUT',
+            headers: {
+                'X-API-KEY': process.env.REACT_APP_API_KEY,
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/" + this.state.comment.id + "/unvote", requestOpt)
+        .then(res => res.json())
+        .then(json => {
+            window.location.reload()
+        })
+    }
+
+    componentDidMount() {
+        this.setState({isLoaded: true})
+    }
+
+    render() {
+        if (!this.state.isLoaded) return
+        return (
+            <table ><tbody>
+            <tr className="athing" id={this.state.comment.id}>
+                <td valign="top" className="votelinks">
+                    <center>
+                        {process.env.REACT_APP_API_KEY_NAME === this.state.comment.author ?
+                            <font color="#ff6600">*</font> :
+                            !this.state.userUpvoted ? 
+                            <a color="#000000" onClick={this.handleUpVote} href="">▲</a> : //link to handle up vote!!
+                            <font color="#ff6600">{'\u00A0\u00A0\u00A0'}</font>
+                        }
+                    </center>
+                </td>
+                
+                <td className="subtext">
+                    <span><a href={"/user?id="+this.state.comment.author}>{this.state.comment.author}</a> </span>
+                    <span className="age" >
+                        <a href={"/reply?id="+this.state.comment.id}>{this.state.comment.created_at + " ago"}</a> {/*falta pasarle la url*/}
+                    </span> 
+                    <span> | </span>
+                    
+                    {this.state.comment.id_comment_father === 0 ?
+                        <a href={"/item?id="+this.state.comment.id_submission}>parent</a> : /*falta pasarle la url*/
+                        <a href={"/reply?id="+this.state.comment.id_comment_father}>parent</a> /*falta pasarle la url*/
+                    }
+
+                    <span> | </span>
+                    
+                    {this.state.comment.author === process.env.REACT_APP_API_KEY_NAME &&
+                        <span>
+                            <a href={"/comments/"+this.state.comment.id+"/edit"}>edit</a>
+                            <span> | </span>
+                            <a href={"/delete_comments/"+this.state.comment.id}>delete</a>
+                            <span> | </span>
+                        </span>
+                        
+                    }
+
+                    {this.state.userUpvoted &&
+                        <span>
+                            <a onClick={this.handleUnVote} href="">unvote</a> {/*falta pasarle la url*/}
+                            <span> | </span>
+                        </span>
+                    }
+
+                    <a href={"/item?id="+this.state.comment.id_submission}>{this.state.title_submission}</a> {/*falta pasarle la url*/}
+                    <span> | </span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <span>
+                        {this.state.comment.comment}
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <span>
+                        <a href={"/reply?id="+this.state.comment.id}>reply</a> {/*falta pasarle la url*/}
+                    </span>
+                </td>
+            </tr>
+            </tbody></table>
+        )
+    }
+}
+
+class CommentTree extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            key: props.paramKey,
+            isLoaded: false,
+            comment: props.comment,
+            userUpvoted: props.userUpvoted,
+            title_submission: props.title_submission
         };
     
     }
 
-    render() {
-        return (
-            <tr class="athing" id=<%=comment.id%>>
-                <td valign="top" class="votelinks">
-                    <center>
-                    <% if user_signed_in? && current_user.name == comment.author%>
-                        <font color="#ff6600">*</font>
-                    <%else%>
-                        <% if user_signed_in?  && (current_user.LikedComments.detect{|e| e.to_i == comment.id.to_i}.nil?)%>
-                        <%= link_to "▲", upvote_comment_path(comment, url: url), method: :put%>
-                        <%else%>
-                        <%if !user_signed_in? %>
-                            <%= link_to "▲", upvote_comment_path(comment, url: url), method: :put%>
-                        <%end%>
-                        <%end%>
-                    <%end%>
-                    
-                    </center>
-                </td>
-                
-                <td class="subtext">
-                    <%= link_to comment.author, "/user?id="+comment.author, url: url%>
-                    <span class="age" title=<%comment.created_at%>>
-                    <%= link_to distance_of_time_in_words(comment.created_at, Time.new) + " ago", "/reply?id="+comment.id.to_s, url: url%>
-                    </span> 
-                    <span id=<%=comment.id.to_s%>></span> | 
-                    
-                    <% if comment.id_comment_father == 0 %>
-                    <%= link_to "parent", "/item?id="+comment.id_submission.to_s, url: url%> |
-                    <% else %>
-                    <%= link_to "parent", "/reply?id="+comment.id_comment_father.to_s, url: url%> |
-                    <% end %>
-                    <% if user_signed_in? && comment.author == current_user.name %>
-                    <%= link_to "edit", "/comments/"+comment.id.to_s+'/edit', url: url%> |
-                    <%= link_to "delete", "/delete_comment?id="+comment.id.to_s, url: url%> |
-                    <%end%>
 
-                    <% if user_signed_in? && !(current_user.LikedComments.detect{|e| e.to_i == comment.id.to_i}.nil?) %>
-                    <%= link_to "unvote", unvote_comment_path(comment, url: url), method: :put%> |
-                    <%end%>
-                    <%= link_to "context", "/item?id="+comment.id_submission.to_s, url: url%> |
-                    <%= link_to title_submission, "/item?id="+comment.id_submission.to_s, url: url%> |
-                    
-                </td>
-                </tr>
-                <tr>
-                <td></td>
-                <td>
-                    <span class="commtext c00">
-                    <%=comment.comment%>
-                    </span>
-                </td>
-                </tr>
+
+    componentDidMount() {
+        this.setState({isLoaded: true})
+    }
+
+    render() {
+        if (!this.state.isLoaded) return
+        return (
+            <table width="85%">
+                <tbody>
+                    <tr>
+                        <td>
+                            <Comment userUpvoted={this.state.userUpvoted.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/> {/*falta url*/}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>{'\u00A0\u00A0\u00A0'}</td>
+                                        <td>{'\u00A0\u00A0\u00A0'}</td>
+                                        <td>{'\u00A0\u00A0\u00A0'}</td>
+                                        <td >
+                                            {this.state.comment.comments.map(subComment => (
+                                                <CommentTree key={this.state.paramKey} paramKey={this.state.paramKey+1} userUpvoted={this.state.userUpvoted} title_submission={this.state.title_submission} comment={subComment}/>
+                                            ))}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         )
     }
 }
@@ -126,7 +241,6 @@ class CommentForm extends Component {
         var url = new URL(window.location.href)
         let id = url.searchParams.get("id")
 
-        console.log(JSON.stringify({id_submission: id, comment: this.state.comment}))
         const requestOpt = {
             method: 'POST',
             headers: {
@@ -154,39 +268,37 @@ class CommentForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <div align="center" style={{backgroundColor: "#f6f6ef"}}>
 
-                    <table id="hnmain" width="85%" bgcolor="#f6f6ef">
-                        <tbody>
-                            <DisplayErrors status={this.state.status} error={this.state.error} message={this.state.message}/>
-                        </tbody>
-                    </table>
+                <table id="hnmain" width="85%" >
+                    <tbody>
+                        <DisplayErrors status={this.state.status} error={this.state.error} message={this.state.message}/>
+                    </tbody>
+                </table>
 
-                    <div>
-                        <br></br>
-                    </div>
-                    
-                    <div style={{backgroundColor: "#f6f6ef"}}>
-                    <table id="hnmain" width="85%" bgcolor="#f6f6ef">
-                        <tbody>
-                            
-                            <tr>
-                                <td></td>
-                                <td><textarea type="text" value={this.state.comment} onChange={this.handleChangeOnComment} cols={70} rows={5}/></td>
-                            </tr>
-                            
-                            <tr>
-                                <td></td>
-                                <td className="actions">
-                                    <input type="submit" value="Add Comment"/>
-                                </td>
-                            </tr>
-                            
-                            <tr><td><br></br></td></tr>
+                <div>
+                    <br></br>
+                </div>
+                
+                <div>
+                <table id="hnmain" width="85%" >
+                    <tbody>
                         
-                        </tbody>
-                    </table>
-                    </div>
+                        <tr>
+                            <td></td>
+                            <td><textarea type="text" value={this.state.comment} onChange={this.handleChangeOnComment} cols={70} rows={5}/></td>
+                        </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td className="actions">
+                                <input type="submit" value="Add Comment"/>
+                            </td>
+                        </tr>
+                        
+                        <tr><td><br></br></td></tr>
+                    
+                    </tbody>
+                </table>
                 </div>
             </form>
         );
@@ -198,12 +310,14 @@ class Item extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoaded: true,
-            submission: [],
+            isLoaded1: false,
+            isLoaded2: false,
+            submission: {},
             comments: [],
             status: 200,
             error: "",
             message: "",
+            upvotedComments: [],
         }
     }
 
@@ -215,9 +329,34 @@ class Item extends Component {
             .then(res => res.json())
             .then(json => {
                 this.setState({
-                    isLoaded: true,
+                    isLoaded1: true,
                     submission: json.submission,
                     comments: json.comments,
+                    status: json.status,
+                    error: json.error,
+                    message: json.message,
+                })
+            })
+        
+        const requestOpt = {
+            method: 'GET',
+            headers: {
+                'X-API-KEY': process.env.REACT_APP_API_KEY,
+                'accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        }
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedComments/', requestOpt)
+            .then(res => res.json())
+            .then(json => {
+                var temp = []
+            
+                json.comments.map((comment) => (
+                    temp.push(comment.id)
+                ))
+                this.setState({
+                    isLoaded2: true,
+                    upvotedComments: temp,
                     status: json.status,
                     error: json.error,
                     message: json.message,
@@ -226,17 +365,26 @@ class Item extends Component {
     }
 
     render() {
-        var{ isLoaded, submission, comments} = this.state
+        var{ isLoaded1, isLoaded2} = this.state
 
-        if (!isLoaded) {
+        if (!isLoaded1 && !isLoaded2) {
         return <div>Loading....</div>
         }else {
-        return ( //html
-            <div className="Profile">
-                <Submission/>
-                <CommentForm/>
-            </div>
-        );
+            console.log(this.state.status)
+            return ( //html
+                <div className="Profile" align="center">
+                    
+                    <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+
+                    <Submission/>
+                    <CommentForm/>
+
+                    {this.state.comments.map((comment) => (
+                        <CommentTree key={comment.created_at} paramKey={comment.created_at+1} userUpvoted={this.state.upvotedComments} title_submission={this.state.submission.title} comment={comment}/>
+                    ))}
+
+                </div>
+            );
         }
         
     }
