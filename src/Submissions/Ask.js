@@ -34,11 +34,16 @@ class Ask extends Component {
       fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOptions)
       .then(res => res.json())
       .then(json => {
+        var temp = []
+    
+        json.submissions.map((submission) => (
+            temp.push(submission.id)
+        ))
         this.setState({
+          voted: temp,
           isLoadedC: true,
-          voted: json.submissions
         })
-      })
+    })
   }
 
   render() {
@@ -57,7 +62,7 @@ class Ask extends Component {
                     submission=  {item}
                     shorturl= ""
                     cont = {cont=cont+1}
-                    userUpvoted ={this.state.voted.find(data => data.id === item.id)}
+                    userUpvoted ={this.state.voted.find(data => data === item.id)}
                   />
                 </table>
               </li>

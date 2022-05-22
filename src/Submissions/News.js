@@ -39,14 +39,19 @@ class News extends Component {
       fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOptions)
       .then(res => res.json())
       .then(json => {
+        var temp = []
+    
+        json.submissions.map((submission) => (
+            temp.push(submission.id)
+        ))
         this.setState({
-          isLoadedC: true,
-          voted: json.submissions,
+          voted: temp,
           status: json.status,
           error: json.error,
           message: json.message,
+          isLoadedC: true,
         })
-      })
+    })
   }
 
   render() {
@@ -66,7 +71,7 @@ class News extends Component {
                     submission=  {item}
                     shorturl= {links[cont]}
                     cont = {cont=cont+1}
-                    userUpvoted ={this.state.voted.find(data => data.id === item.id)}
+                    userUpvoted ={this.state.voted.find(data => data === item.id)}
                   />
                 </table>
               </li>

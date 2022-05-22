@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
 import moment from 'moment';
+import { relativeTimeThreshold } from 'moment';
 
-class SubmissionInList extends Component {
+class Submission extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -61,42 +62,14 @@ class SubmissionInList extends Component {
         if (!this.state.isLoaded) return
         return (
           <tbody>
-          <tr>
-            <td>
-              <span>&nbsp;</span>
-            </td>
-          </tr>
-          <tr className="athing" id ={this.state.submission.id}>
-    
-            <td align="right"  className="title">
-              <span className="rank">{this.state.cont}.</span>
-            </td>   
-    
-            <td valign="bottom" className="votelinks"> 
-              {process.env.REACT_APP_API_KEY_NAME === this.state.submission.author_username  ? 
-                <font color="#ff6600"> {"*"} </font>
-                :
-                this.state.userUpvoted?
-                <a>{'\u00A0'} </a>
-                :
-                <a className="votebutton" onClick={this.handleUpVote}>▲ </a>
-              }
-                  
-            </td>
-    
-            <td className="title">
-              <a href={(this.state.submission.url=== ""? "/item":this.state.submission.url)} className="title">{this.state.submission.title}</a>
-              <span className="sitebit comhead">
-                {" "}
-                <a className="sublink" href={this.state.shorturl}>
-                  {(this.state.shorturl !== "")?"("+this.state.shorturl+")":"" }
-                </a>
-              </span>
-            </td>
-    
+            <tr>
+                <td>
+                    <span>&nbsp;</span>
+                </td>          
           </tr>
           <tr>
             <td colSpan="2"></td>
+            <td>{'\u00A0\u00A0\u00A0\u00A0'}</td>
             <td className="subtext">
               <span>{this.state.submission.UpVotes}</span>{" by "}
               <a className="subtext" href={"/item"}>{this.state.submission.author_username}</a>
@@ -118,11 +91,46 @@ class SubmissionInList extends Component {
               }
               <a className="subtext" href={"/item"}>comments</a>
             </td>
-    
           </tr>
           
+          <tr className="athing" id ={this.state.submission.id}>
+    
+            <td align="right"  className="title">
+              {this.state.cont===0?<span className="rank">{'\u00A0'}</span>:<span className="rank">{this.state.cont+'.'}</span>}
+            </td>   
+    
+            <td valign="bottom" className="votelinks"> 
+              {process.env.REACT_APP_API_KEY_NAME === this.state.submission.author_username  ? 
+                <font color="#ff6600"> {"*"} </font>
+                :
+                this.state.userUpvoted?
+                <a>{'\u00A0'} </a>
+                :
+                <a className="votebutton" onClick={this.handleUpVote}>▲ </a>
+              }
+                  
+            </td>
+            <td></td>
+    
+            <td className="title">
+              <a href={(this.state.submission.url=== ""? "/item":this.state.submission.url)} className="title">{this.state.submission.title}</a>
+              <span className="sitebit comhead">
+                {" "}
+                <a className="sublink" href={this.state.shorturl}>
+                  {(this.state.shorturl !== "")?"("+this.state.shorturl+")":"" }
+                </a>
+              </span>
+            </td>
+    
+          </tr>
+          <tr>
+            <td colSpan="3"></td>
+            <td className="subtext">
+              <span className="subtext">{this.state.submission.text}</span>
+            </td>
+          </tr>
         </tbody>
         )
     }
 }
-export default SubmissionInList;
+export default Submission;
