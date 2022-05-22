@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
-import SubmissionInList from '../Submissions/SubmissionInList';
+import SubmissionInList from './SubmissionInList';
 
 
 import { Routes, Route, useNavigate} from "react-router-dom";

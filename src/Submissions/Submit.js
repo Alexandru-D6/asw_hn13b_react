@@ -50,7 +50,6 @@ class AboutForm extends Component {
   
     handleSubmit(event) {
         event.preventDefault();
-        console.log(JSON.stringify({title: this.state.title, url: this.state.url, text: this.state.text}))
         const requestOpt = {
             method: 'POST',
             headers: {
@@ -78,9 +77,9 @@ class AboutForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <div align="center" style={{backgroundColor: "#f6f6ef"}}>
+                <div align="center">
 
-                    <table id="hnmain" width="85%" bgcolor="#f6f6ef">
+                    <table id="hnmain" width="85%">
                         <tbody>
                             <DisplayErrors status={this.state.status} error={this.state.error} message={this.state.message}/>
                         </tbody>
@@ -90,8 +89,8 @@ class AboutForm extends Component {
                         <br></br>
                     </div>
                     
-                    <div style={{backgroundColor: "#f6f6ef"}}>
-                    <table id="hnmain" width="85%" bgcolor="#f6f6ef">
+                    <div>
+                    <table id="hnmain" width="85%">
                         <tbody>
                             
                             <tr>

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
 import moment from 'moment';
-import { relativeTimeThreshold } from 'moment';
 
 class Submission extends Component {
     constructor(props) {
@@ -63,35 +62,33 @@ class Submission extends Component {
         return (
           <tbody>
             <tr>
-                <td>
-                    <span>&nbsp;</span>
-                </td>          
-          </tr>
-          <tr>
-            <td colSpan="2"></td>
-            <td>{'\u00A0\u00A0\u00A0\u00A0'}</td>
-            <td className="subtext">
-              <span>{this.state.submission.UpVotes}</span>{" by "}
-              <a className="subtext" href={"/item"}>{this.state.submission.author_username}</a>
-              <span title={this.state.submission.created_at}>
-                {" "}
-                <a className="subtext" href={"/item"}>{moment.utc(this.state.submission.created_at).local().startOf('seconds').fromNow()}</a>
-              </span> 
-              <span id=""></span>{" | "}  
-              {process.env.REACT_APP_API_KEY_NAME === this.state.submission.author_username? 
-              <span>
-                <a className="subtext" href={"/submission/edit?id="+this.state.submission.id}>edit</a>{" | "}
-                <a className="subtext" href={"/submission/delete?id="+this.state.submission.id}>delete</a>{" | "}
-              </span>
-              :
-              this.state.userUpvoted?
-                <span><a className="subtext" onClick={this.handleUnVote}>unvote</a>{" | "}</span>
-              :
-              <a className="subtext">{""}</a>
-              }
-              <a className="subtext" href={"/item"}>comments</a>
-            </td>
-          </tr>
+                <td><br></br></td>          
+            </tr>
+            <tr>
+              <td colSpan="2"></td>
+              <td><center>{'\u00A0'}</center></td>
+              <td className="subtext">
+                <span>{this.state.submission.UpVotes}</span>{" by "}
+                <a className="subtext" href={"/item?id="+this.state.submission.id}>{this.state.submission.author_username}</a>
+                <span title={this.state.submission.created_at}>
+                  {" "}
+                  <a className="subtext" href={"/item?id="+this.state.submission.id}>{moment.utc(this.state.submission.created_at).local().startOf('seconds').fromNow()}</a>
+                </span> 
+                <span id=""></span>{" | "}  
+                {process.env.REACT_APP_API_KEY_NAME === this.state.submission.author_username? 
+                <span>
+                  <a className="subtext" href={"/submission/edit?id="+this.state.submission.id}>edit</a>{" | "}
+                  <a className="subtext" href={"/submission/delete?id="+this.state.submission.id}>delete</a>{" | "}
+                </span>
+                :
+                this.state.userUpvoted?
+                  <span><a className="subtext" onClick={this.handleUnVote}>unvote</a>{" | "}</span>
+                :
+                <a className="subtext">{""}</a>
+                }
+                <a className="subtext" href={"/item?id="+this.state.submission.id}>comments</a>
+              </td>
+            </tr>
           
           <tr className="athing" id ={this.state.submission.id}>
     
@@ -113,7 +110,7 @@ class Submission extends Component {
             <td></td>
     
             <td className="title">
-              <a href={(this.state.submission.url=== ""? "/item":this.state.submission.url)} className="title">{this.state.submission.title}</a>
+              <a href={(this.state.submission.url=== ""? "/item?id="+this.state.submission.id:this.state.submission.url)} className="title">{this.state.submission.title}</a>
               <span className="sitebit comhead">
                 {" "}
                 <a className="sublink" href={this.state.shorturl}>

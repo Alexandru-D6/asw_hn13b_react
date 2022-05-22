@@ -8,7 +8,6 @@ function DisplayErrorsNoTable(props) {
     var error = props.error
     var message = props.message
 
-    console.log(status)
     if (status !== 200 && status !== 201 && status !== 202 && status !== 203 && status !== undefined) {
         return(
             <span style={{color: "red"}}>{error + ": " + message}</span>
@@ -111,10 +110,9 @@ class Delete extends Component {
     render() {
         var{ isLoaded1, isLoaded2} = this.state
 
-        if (!isLoaded1 && !isLoaded2) {
+        if (!isLoaded1 || !isLoaded2) {
         return <div>Loading....</div>
         }else {
-            console.log(this.state.prevUrl)
             return ( //html
                 <div className="Profile" align="center">
                     <br></br>

@@ -85,7 +85,7 @@ class SubmissionInList extends Component {
             </td>
     
             <td className="title">
-              <a href={(this.state.submission.url=== ""? "/item":this.state.submission.url)} className="title">{this.state.submission.title}</a>
+              <a href={(this.state.submission.url=== ""? "/item?id="+this.state.submission.id:this.state.submission.url)} className="title">{this.state.submission.title}</a>
               <span className="sitebit comhead">
                 {" "}
                 <a className="sublink" href={this.state.shorturl}>
@@ -99,10 +99,10 @@ class SubmissionInList extends Component {
             <td colSpan="2"></td>
             <td className="subtext">
               <span>{this.state.submission.UpVotes}</span>{" by "}
-              <a className="subtext" href={"/item"}>{this.state.submission.author_username}</a>
+              <a className="subtext" href={"/item?id="+this.state.submission.id}>{this.state.submission.author_username}</a>
               <span title={this.state.submission.created_at}>
                 {" "}
-                <a className="subtext" href={"/item"}>{moment.utc(this.state.submission.created_at).local().startOf('seconds').fromNow()}</a>
+                <a className="subtext" href={"/item?id="+this.state.submission.id}>{moment.utc(this.state.submission.created_at).local().startOf('seconds').fromNow()}</a>
               </span> 
               <span id=""></span>{" | "}  
               {process.env.REACT_APP_API_KEY_NAME === this.state.submission.author_username? 
@@ -116,7 +116,7 @@ class SubmissionInList extends Component {
               :
               <a className="subtext">{""}</a>
               }
-              <a className="subtext" href={"/item"}>comments</a>
+              <a className="subtext" href={"/item?id="+this.state.submission.id}>comments</a>
             </td>
     
           </tr>

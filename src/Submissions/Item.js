@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import "../CSS/Item.css"
 import CommentForm from "../Comments/CommentForm"
 import CommentTree from "../Comments/CommentTree"
+import Submission from "./Submission"
 
 function DisplayErrorsNoTable(props) {
     var status = props.status
@@ -17,12 +18,6 @@ function DisplayErrorsNoTable(props) {
     return (<span></span>)
 }
 
-class Submission extends Component {
-    render() {
-        return (<h2> Aqui viene una submission </h2>)
-    }
-}
-
 class Item extends Component {
 
     constructor(props) {
@@ -30,12 +25,14 @@ class Item extends Component {
         this.state = {
             isLoaded1: false,
             isLoaded2: false,
+            isLoaded3: false,
             submission: {},
             comments: [],
             status: 200,
             error: "",
             message: "",
             upvotedComments: [],
+            upvotedSubmissions: [],
         }
     }
 
@@ -80,21 +77,39 @@ class Item extends Component {
                     message: json.message,
                 })
             })
+        
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions/', requestOpt)
+            .then(res => res.json())
+            .then(json => {
+                var temp = []
+            
+                json.submissions.map((submission) => (
+                    temp.push(submission.id)
+                ))
+                this.setState({
+                    isLoaded3: true,
+                    upvotedSubmissions: temp,
+                    status: json.status,
+                    error: json.error,
+                    message: json.message,
+                })
+            })
     }
 
     render() {
-        var{ isLoaded1, isLoaded2} = this.state
+        var{ isLoaded1, isLoaded2, isLoaded3} = this.state
 
-        if (!isLoaded1 && !isLoaded2) {
+        if (!isLoaded1 || !isLoaded2 || !isLoaded3) {
         return <div>Loading....</div>
         }else {
-            console.log(window.location)
             return ( //html
                 <div className="Profile" align="center">
                     
                     <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
 
-                    <Submission/>
+                    <table width={"85%"}>
+                        <Submission submission={this.state.submission} shorturl={""} cont={0} userUpvoted={this.state.upvotedSubmissions.find(data => data === this.state.submission.id)}/>
+                    </table>
                     <CommentForm/>
 
                     {this.state.comments.map((comment) => (

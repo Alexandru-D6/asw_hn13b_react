@@ -11,29 +11,23 @@ import {
 
 import Newest from "./Submissions/Newest"
 import News from "./Submissions/News"
+import Submit from "./Submissions/Submit"
 import Ask from "./Submissions/Ask"
 import SubmissionsEdit from "./Submissions/Edit"
 import SubmissionsDelete from "./Submissions/Delete"
-
-import SubmissionsUser from "./Users/SubmissionsUser"
-import UpVotedSubmissionsUser from "./Users/UpVotedSubmissionsUser"
-
-
-import Submit from "./Submissions/Submit"
 import Item from "./Submissions/Item"
+
+
 import Reply from "./Comments/Reply"
 import CommentsEdit from "./Comments/Edit"
 import CommentsDelete from "./Comments/Delete"
 
+import Profile from "./Users/Profile"
+import SubmissionsUser from "./Users/SubmissionsUser"
+import UpVotedSubmissionsUser from "./Users/UpVotedSubmissionsUser"
+
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
-import TimeAgo from 'javascript-time-ago'
-
-import en from 'javascript-time-ago/locale/en.json'
-import ru from 'javascript-time-ago/locale/ru.json'
-
-TimeAgo.addDefaultLocale(en)
-TimeAgo.addLocale(ru)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -54,7 +48,7 @@ root.render(
         <Route path="/reply" element={<Reply/>}/>
         <Route path="/comments/edit" element={<CommentsEdit/>}/>
         <Route path="/comments/delete" element={<CommentsDelete/>}/>
-        <Route path="/user" element={<Testing/>}/>
+        <Route path="/user" element={<Profile/>}/>
         
         {/* user */}
         <Route path="/user/submissions" element={<SubmissionsUser/>}/>

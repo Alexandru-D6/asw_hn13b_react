@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import moment from 'moment';
 
 class Comment extends Component {
     constructor(props) {
@@ -73,7 +74,7 @@ class Comment extends Component {
                         <td className="subtext">
                             <span><a href={"/user?id="+this.state.comment.author}>{this.state.comment.author}</a> </span>
                             <span className="age" >
-                                <a href={"/reply?id="+this.state.comment.id}>{this.state.comment.created_at + " ago"}</a> {/*falta pasarle la url*/}
+                                <a href={"/reply?id="+this.state.comment.id}>{moment.utc(this.state.comment.created_at).local().startOf('seconds').fromNow()}</a> {/*falta pasarle la url*/}
                             </span> 
                             <span> | </span>
                             
