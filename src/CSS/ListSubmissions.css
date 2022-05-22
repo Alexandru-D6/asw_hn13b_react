@@ -14,6 +14,7 @@ table {
     font-size: 9pt; 
     color:#000000; 
     overflow:hidden; 
+    text-decoration:none;
 }
 .votebutton:link {
     text-decoration: none;
@@ -22,7 +23,8 @@ table {
     font-family:Verdana, Geneva, sans-serif;
     font-size: 10pt; 
     color:#000000; 
-    overflow:hidden; 
+    overflow:hidden;
+    text-decoration:none;
 }
 .title:link {
     text-decoration: none;
