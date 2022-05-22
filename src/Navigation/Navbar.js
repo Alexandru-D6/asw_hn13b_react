@@ -1,10 +1,10 @@
 import React from "react";
-import logo from '../logo.svg';
 
 const Navbar = () => {
   return (
     <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            {'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'}
             <a className="navbar-brand" href="/news">
                 Hacker News
             </a>
@@ -15,7 +15,7 @@ const Navbar = () => {
                         <a className="nav-link" href="/newest">New</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/threads">Comments</a>
+                        <a className="nav-link" href="/threads">Threads</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/submit">Submit</a>
@@ -26,10 +26,10 @@ const Navbar = () => {
                 </ul>
             </div>
 
-            <div style={{display: 'flex', justifyContent:'flex-end', verticalAlign: 'center'}}>
-                <ul>
+            <div>
+                <ul className="navbar-nav">
                     <li className="nav-item">
-                        <a className="nav-link" href="/user?id=ElectrikeOfficial">ElectrikeOfficial</a>
+                        <a className="nav-link" href={"/user?id=" + process.env.REACT_APP_API_KEY_NAME}>{process.env.REACT_APP_API_KEY_NAME}</a>
                     </li>
                 </ul>
             </div>

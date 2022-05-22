@@ -1,0 +1,54 @@
+table {
+    border-collapse: separate;
+    text-indent: initial;
+    white-space: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-style: normal;
+    text-align: start;
+    border-spacing: 2px;
+    font-variant: normal;
+}
+.votebutton{
+    font-family:Verdana, Geneva, sans-serif;
+    font-size: 9pt; 
+    color:#000000; 
+    overflow:hidden; 
+    text-decoration:none;
+}
+.votebutton:link {
+    text-decoration: none;
+}
+.title   { 
+    font-family:Verdana, Geneva, sans-serif;
+    font-size: 10pt; 
+    color:#000000; 
+    overflow:hidden;
+    text-decoration:none;
+}
+.title:link {
+    text-decoration: none;
+}
+.title:visited {
+    color: rgb(175, 175, 175);
+}
+  
+.sublink   { 
+    font-family:Verdana, Geneva, sans-serif;
+    font-size: 8pt; 
+    color:#828282; 
+    overflow:hidden; 
+}
+.sublink:link {
+    text-decoration: none;
+}
+
+.subtext {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 9pt;
+    color: #828282;
+}
+
+.subtext:link {
+    text-decoration: none;
+}
