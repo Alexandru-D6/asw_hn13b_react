@@ -8,7 +8,7 @@ class Comment extends Component {
             isLoaded: false,
             comment: props.comment,
             userUpvoted: props.userUpvoted,
-            title_submission: props.title_submission
+            title_submission: ""
         };
 
         this.handleUpVote = this.handleUpVote.bind(this);
@@ -51,7 +51,19 @@ class Comment extends Component {
     }
 
     componentDidMount() {
-        this.setState({isLoaded: true})
+
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + this.state.comment.id_submission)
+            .then(res => res.json())
+            .then(json => {
+                this.setState({
+                    isLoaded: true,
+                    title_submission: json.submission.title,
+                    status: json.status,
+                    error: json.error,
+                    message: json.message,
+                })
+            })
+
     }
 
     render() {

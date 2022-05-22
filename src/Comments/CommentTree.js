@@ -9,7 +9,6 @@ class CommentTree extends Component {
             isLoaded: false,
             comment: props.comment,
             userUpvoted: props.userUpvoted,
-            title_submission: props.title_submission
         };
     
     }
@@ -25,7 +24,7 @@ class CommentTree extends Component {
                 <tbody>
                     <tr>
                         <td>
-                            <Comment userUpvoted={this.state.userUpvoted.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/> {/*falta url*/}
+                            <Comment userUpvoted={this.state.userUpvoted.find(data => data === this.state.comment.id)} comment={this.state.comment}/> {/*falta url*/}
                         </td>
                     </tr>
 
@@ -39,7 +38,7 @@ class CommentTree extends Component {
                                         <td>{'\u00A0\u00A0\u00A0'}</td>
                                         <td >
                                             {this.state.comment.comments.map(subComment => (
-                                                <CommentTree key={subComment.created_at} paramKey={subComment.created_at+1} userUpvoted={this.state.userUpvoted} title_submission={this.state.title_submission} comment={subComment}/>
+                                                <CommentTree key={subComment.created_at} paramKey={subComment.created_at+1} userUpvoted={this.state.userUpvoted} comment={subComment}/>
                                             ))}
                                         </td>
                                     </tr>
