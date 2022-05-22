@@ -40,7 +40,6 @@ class EditForm extends Component {
         event.preventDefault();
 
         var url = new URL(window.location.href)
-        console.log(window.location)
         let id = url.searchParams.get("id")
 
         const requestOpt = {

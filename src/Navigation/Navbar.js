@@ -1,5 +1,4 @@
 import React from "react";
-import logo from '../logo.svg';
 
 const Navbar = () => {
   return (
@@ -16,16 +15,13 @@ const Navbar = () => {
                         <a className="nav-link" href="/newest">New</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/threads">Comments</a>
+                        <a className="nav-link" href="/threads">Threads</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/submit">Submit</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/ask">Ask</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="/item?id=2">Item 2</a>
                     </li>
                 </ul>
             </div>
