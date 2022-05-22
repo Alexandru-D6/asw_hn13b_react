@@ -28,6 +28,9 @@ class Delete extends Component {
             error: "",
             message: "",
             upvoted: [],
+            status2: 200,
+            error2: "",
+            message2: "",
 
         }
         this.handleDelete = this.handleDelete.bind(this);
@@ -87,9 +90,9 @@ class Delete extends Component {
                 this.setState({
                     isLoaded2: true,
                     upvoted: temp,
-                    status: json.status,
-                    error: json.error,
-                    message: json.message,
+                    status2: json.status,
+                    error2: json.error,
+                    message2: json.message,
                 })
             })
     }
@@ -97,41 +100,53 @@ class Delete extends Component {
     render() {
         var{ isLoaded1, isLoaded2} = this.state
         if (!isLoaded1 && !isLoaded2) {
-        return <div><DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>Loading....</div>
+        return <div>Loading....</div>
         }else {
             return ( //html
                 <div>
-                    {this.state.submission.author_username===process.env.REACT_APP_API_KEY_NAME?
-                    <ul>
-                        <table>
-                        <Submission 
-                        submission=  {this.state.submission}
-                        shorturl= ""
-                        cont = {0}
-                        userUpvoted ={this.state.upvoted.find(data => data === this.state.submission.id)}
-                        />
-                        </table>
-                        <table width={"85%"}>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <font className="title">Do you want this to be deleted?</font>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <button className="title" onClick={this.handleDelete} href={""}>Yes</button>
-                                    <span>{'\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'}</span>
-                                    <button className="title" href={"/news"}>No</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    </ul> 
-                    :
-                    <span>You can't delete this</span>
+                    {(this.state.status !== 200 && this.state.status !== 201 && this.state.status !== 202 && this.state.status !== 203 && this.state.status !== undefined)?
+                        <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+                        :
+                        <div>
+                            {(this.state.status2 !== 200 && this.state.status2 !== 201 && this.state.status2 !== 202 && this.state.status2 !== 203 && this.state.status2 !== undefined)?
+                            <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+                            :
+                            <div>
+                                {this.state.submission.author_username===process.env.REACT_APP_API_KEY_NAME?
+                                    <ul>
+                                        <table>
+                                            <Submission 
+                                                submission=  {this.state.submission}
+                                                shorturl= ""
+                                                cont = {0}
+                                                userUpvoted ={this.state.upvoted.find(data => data === this.state.submission.id)}
+                                            />
+                                        </table>
+                                        <table width={"85%"}>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <font className="title">Do you want this to be deleted?</font>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <button className="title" onClick={this.handleDelete} href={""}>Yes</button>
+                                                        <span>{'\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0'}</span>
+                                                        <button className="title" href={"/news"}>No</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ul> 
+                                    :
+                                    <span>You can't delete this</span>
+                                }
+                            </div>
                     }
-                    
+                        </div>
+                        
+                    }
                 </div>
             );
         }

@@ -15,6 +15,9 @@ import Ask from "./Submissions/Ask"
 import SubmissionsEdit from "./Submissions/Edit"
 import SubmissionsDelete from "./Submissions/Delete"
 
+import SubmissionsUser from "./Users/SubmissionsUser"
+import UpVotedSubmissionsUser from "./Users/UpVotedSubmissionsUser"
+
 
 import Testing from "./Submissions/Testing"
 
@@ -40,6 +43,8 @@ root.render(
         <Route path="/user" element={<Testing/>}/>
         <Route path="/submission/edit" element={<SubmissionsEdit/>}/>
         <Route path="/submission/delete" element={<SubmissionsDelete/>}/>
+        <Route path="/user/submissions" element={<SubmissionsUser/>}/>
+        <Route path="/user/upvotedsubmissions" element={<UpVotedSubmissionsUser/>}/>
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
