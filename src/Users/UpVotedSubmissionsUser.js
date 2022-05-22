@@ -16,19 +16,16 @@ function DisplayErrorsNoTable(props) {
           <span style={{color: "red"}}>{error + ": " + message}</span>
       )
   }
-
   return (<span></span>)
 }
 
-class Newest extends Component {
+class SubmissionsUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
       links: [],
       isLoaded: false,
-      isLoadedC: false,
-      voted: [],
       status: 200,
       error: "",
       message: "",
@@ -36,67 +33,59 @@ class Newest extends Component {
   }
 
   componentDidMount() {
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/newest')
+    const requestOpt = {
+        method: 'GET',
+        headers: {
+            'X-API-KEY': process.env.REACT_APP_API_KEY,
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+    }
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOpt)
       .then(res => res.json())
       .then(json => {
         this.setState({
           isLoaded: true,
           items: json.submissions,
-          links: json.shorturl,
+          links: json.short_url,
           status: json.status,
           error: json.error,
           message: json.message,
         })
       })
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'x-api-key': process.env.REACT_APP_API_KEY},
-    };
-      fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOptions)
-      .then(res => res.json())
-      .then(json => {
-        var temp = []
-    
-        json.submissions.map((submission) => (
-            temp.push(submission.id)
-        ))
-        this.setState({
-          voted: temp,
-          status: json.status,
-          error: json.error,
-          message: json.message,
-          isLoadedC: true,
-        })
-    })
   }
 
   render() {
 
-    var{ isLoaded, items, links,isLoadedC, } = this.state
+    var{ isLoaded, items } = this.state
     var cont = 0
-    if (!isLoaded && !isLoadedC) {
+    if (!isLoaded) {
       return <div>Loading....</div>
     }else {
       return (
         <div className="App">
+          {this.state.status !== 200 && this.state.status !== 201 && this.state.status !== 202 && this.state.status !== 203 && this.state.status !== undefined?
           <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
-            <ul>
+          :
+          <ul>
             {items.map(item => (
               <li key={item.id}>
                 <table>
                   <SubmissionInList 
-                    submission=  {item}
-                    shorturl= {links[cont]}
+                    submission =  {item}
+                    shorturl= {this.state.links?this.state.links[cont]:""}
                     cont = {cont=cont+1}
-                    userUpvoted ={this.state.voted.find(data => data === item.id)}
+                    userUpvoted ={true}
                   />
                 </table>
               </li>
             ))}
           </ul>
+          }
+            
         </div>
       );
     }
   }
 }
-export default Newest;
+export default SubmissionsUser;

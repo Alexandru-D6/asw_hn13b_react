@@ -3,33 +3,28 @@ import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
 import SubmissionInList from '../Submissions/SubmissionInList';
 
+
 import { Routes, Route, useNavigate} from "react-router-dom";
 
-class News extends Component {
+
+class Ask extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
       isLoaded: false,
-      links: [],
       isLoadedC: false,
-      voted: [],
-      status: 200,
-      error: "",
-      message: "",
+      voted: []
     }
-
   }
 
-
   componentDidMount() {
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/news')
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/ask')
       .then(res => res.json())
       .then(json => {
         this.setState({
           isLoaded: true,
           items: json.submissions,
-          links: json.short_url
         })
       })
       const requestOptions = {
@@ -46,18 +41,14 @@ class News extends Component {
         ))
         this.setState({
           voted: temp,
-          status: json.status,
-          error: json.error,
-          message: json.message,
           isLoadedC: true,
         })
     })
   }
 
   render() {
-    var{ isLoaded, items, links, voted, isLoadedC} = this.state
+    var{ isLoaded, items, isLoadedC} = this.state
     var cont = 0
-    var nomauth = "ElectrikeOfficial"
     if (!isLoaded && !isLoadedC) {
       return <div>Loading....</div>
     }else {
@@ -69,7 +60,7 @@ class News extends Component {
                 <table>
                 <SubmissionInList 
                     submission=  {item}
-                    shorturl= {links[cont]}
+                    shorturl= ""
                     cont = {cont=cont+1}
                     userUpvoted ={this.state.voted.find(data => data === item.id)}
                   />
@@ -82,4 +73,4 @@ class News extends Component {
     }
   }
 }
-export default News;
+export default Ask;
