@@ -1,7 +1,20 @@
-import React, {Component} from 'react';
-import '../CSS/App.css';
+import React, {Component} from 'react'
+import '../CSS/App.css'
+import Comment from "./Comment"
 
-import { Routes, Route, useNavigate} from "react-router-dom";
+function DisplayErrorsNoTable(props) {
+  var status = props.status
+  var error = props.error
+  var message = props.message
+
+  if (status !== 200 && status !== 201 && status !== 202 && status !== 203 && status !== undefined) {
+      return(
+          <span style={{color: "red"}}>{error + ": " + message}</span>
+      )
+  }
+
+  return (<span></span>)
+}
 
 class Threads extends Component {
   constructor(props) {
@@ -9,6 +22,8 @@ class Threads extends Component {
     this.state = {
       items: [],
       isLoaded: false,
+      comment: [],
+      userUpvoted: [],
     }
   }
   componentDidMount() {
@@ -23,26 +38,27 @@ class Threads extends Component {
   }
 
   render() {
-
-    var{ isLoaded, items} = this.state
+    var{ isLoaded} = this.state
 
     if (!isLoaded) {
-      return <div>Loading....</div>
+    return <div>Loading....</div>
     }else {
-      return (
-        <div className="App">
-          
-          <ul>
-            {items.map(item => (
-              <li key={item.id}>
-                {item.title}
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
+        return ( //html
+            <div className="Threads" align="center">
+                
+                <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+
+                <table width={"85%"}>                        
+                    <Comment 
+                    comment={this.state.comment} 
+                    userUpvoted={this.state.userUpvoted.find(data => data === this.state.comment.id)} 
+                    />
+                </table>
+
+            </div>
+        );
     }
     
-  }
+}
 }
 export default Threads;
