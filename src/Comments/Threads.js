@@ -35,7 +35,9 @@ class Threads extends Component {
     }
   }
   componentDidMount() {
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/user/'+process.env.REACT_APP_API_KEY_NAME+'/comments')
+    var url = new URL(window.location.href)
+    let id = url.searchParams.get("id")
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/user/'+id+'/comments')
       .then(res => res.json())
       .then(json => {
         this.setState({
