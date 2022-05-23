@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import '../CSS/App.css'
-import Comment from "./Comment"
+import Comment from "../Comments/Comment"
 
 function DisplayErrorsNoTable(props) {
   var status = props.status
@@ -16,38 +16,20 @@ function DisplayErrorsNoTable(props) {
   return (<span></span>)
 }
 
-class Threads extends Component {
+class UpVotedComments extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
       isLoaded: false,
       comment: [],
-      titles_submissions:[],
       userUpvoted: [],
       status: 200,
       error: "",
       message: "",
-      isLoaded2: false,
-      status2: 200,
-      error2: "",
-      message2: "",
     }
   }
   componentDidMount() {
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/user/'+process.env.REACT_APP_API_KEY_NAME+'/comments')
-      .then(res => res.json())
-      .then(json => {
-        this.setState({
-          isLoaded: true,
-          items: json.comments,
-          titles_submissions: json.titles_submissions,
-          status: json.status,
-          error: json.error,
-          message: json.message,
-        })
-        return json
-      })
     const requestOpt = {
       method: 'GET',
       headers: {
@@ -65,11 +47,12 @@ class Threads extends Component {
                 temp.push(comment.id)
             ))
             this.setState({
-                isLoaded2: true,
-                userUpvoted: temp,
-                status2: json.status,
-                error2: json.error,
-                message2: json.message,
+                isLoaded: true,
+                items: json.comments,
+                userUpvoted: true,
+                status: json.status,
+                error: json.error,
+                message: json.message,
             })
         })
   }
@@ -77,7 +60,7 @@ class Threads extends Component {
   render() {
     var{ isLoaded} = this.state
 
-    if (!isLoaded || !this.state.isLoaded2) {
+    if (!isLoaded) {
     return <div>Loading....</div>
     }else {
         return ( //html
@@ -94,7 +77,7 @@ class Threads extends Component {
                     {this.state.items.map(item => (                       
                         <Comment 
                         comment={item} 
-                        userUpvoted={this.state.userUpvoted.find(data => data === item.id)} 
+                        userUpvoted={this.state.userUpvoted} 
                         />
                       ))}
                     </table>
@@ -108,4 +91,4 @@ class Threads extends Component {
     }    
   }
 }
-export default Threads;
+export default UpVotedComments;
