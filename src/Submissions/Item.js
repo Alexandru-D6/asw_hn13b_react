@@ -113,7 +113,7 @@ class Item extends Component {
                     <CommentForm/>
 
                     {this.state.comments.map((comment) => (
-                        <CommentTree key={comment.created_at} paramKey={comment.created_at+1} userUpvoted={this.state.upvotedComments} title_submission={this.state.submission.title} comment={comment}/>
+                        <CommentTree key={comment.created_at} paramKey={comment.created_at+1} userUpvoted={this.state.upvotedComments} comment={comment}/>
                     ))}
 
                 </div>

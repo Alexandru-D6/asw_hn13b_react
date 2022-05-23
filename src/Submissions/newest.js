@@ -3,9 +3,6 @@ import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
 import SubmissionInList from './SubmissionInList';
 
-
-import { Routes, Route, useNavigate} from "react-router-dom";
-
 function DisplayErrorsNoTable(props) {
   var status = props.status
   var error = props.error
