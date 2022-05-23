@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import '../CSS/Profile.css';
+<<<<<<< Updated upstream
 import moment from "moment";
 
+=======
+>>>>>>> Stashed changes
 
 import { Routes, Route, useNavigate} from "react-router-dom";
 
@@ -27,7 +30,10 @@ class Profile extends Component {
           this.setState({
             isLoaded: true,
             item: json.user,
+<<<<<<< Updated upstream
             aboutValue: json.user.about,
+=======
+>>>>>>> Stashed changes
           })
         })
     }
@@ -40,7 +46,9 @@ class Profile extends Component {
                     <tbody>Loading....</tbody>
                   </table>
         }else {
+          console.log(item);
           return (
+<<<<<<< Updated upstream
             <body>
               <table border="0" cellPadding="0" width="85%" bgcolor="#f6f6ef">
                 <tbody>
@@ -95,6 +103,15 @@ class Profile extends Component {
               <br></br>
               <input type="submit" value= "update"></input>
             </body>
+=======
+            <div className="Profile">
+              <ul>
+                  <li>
+                    {item.created_at}
+                  </li>
+                </ul>
+            </div>
+>>>>>>> Stashed changes
           );
         }
         
