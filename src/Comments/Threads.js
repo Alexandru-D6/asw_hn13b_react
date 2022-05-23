@@ -81,20 +81,29 @@ class Threads extends Component {
     return <div>Loading....</div>
     }else {
         return ( //html
-            <div className="Threads" align="center">
-                
-                <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
-                
-                <table width={"85%"}> 
-                {this.state.items.map(item => (                       
-                    <Comment 
-                    comment={item} 
-                    userUpvoted={this.state.userUpvoted.find(data => data === item.id)} 
-                    />
-                  ))}
-                </table>
-
-            </div>
+        <div>
+          {(this.state.status !== 200 && this.state.status !== 201 && this.state.status !== 202 && this.state.status !== 203 && this.state.status !== undefined)?
+              <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+              :
+              <div>
+                  {(this.state.status2 !== 200 && this.state.status2 !== 201 && this.state.status2 !== 202 && this.state.status2 !== 203 && this.state.status2 !== undefined)?
+                  <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+                  :
+                  <div className="Threads" align="center">      
+                    <table width={"85%"}> 
+                    {this.state.items.map(item => (                       
+                        <Comment 
+                        comment={item} 
+                        userUpvoted={this.state.userUpvoted.find(data => data === item.id)} 
+                        />
+                      ))}
+                    </table>
+                  </div>
+                }
+              </div>
+            }
+        </div>
+            
         );
     }    
   }
