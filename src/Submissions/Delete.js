@@ -108,7 +108,7 @@ class Delete extends Component {
                         :
                         <div>
                             {(this.state.status2 !== 200 && this.state.status2 !== 201 && this.state.status2 !== 202 && this.state.status2 !== 203 && this.state.status2 !== undefined)?
-                            <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
+                            <DisplayErrorsNoTable status={this.state.status2} error={this.state.error2} message={this.state.message2}/>
                             :
                             <div>
                                 {this.state.submission.author_username===process.env.REACT_APP_API_KEY_NAME?

@@ -47,7 +47,6 @@ root.render(
         <Route path="/reply" element={<Reply/>}/>
         <Route path="/comments/edit" element={<CommentsEdit/>}/>
         <Route path="/comments/delete" element={<CommentsDelete/>}/>
-        <Route path="/user" element={<Profile/>}/>
         
         {/* user */}
         <Route path="/user/submissions" element={<SubmissionsUser/>}/>
