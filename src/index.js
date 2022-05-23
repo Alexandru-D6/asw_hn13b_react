@@ -11,16 +11,11 @@ import {
 
 import Newest from "./Submissions/Newest"
 import News from "./Submissions/News"
-<<<<<<< Updated upstream
 import Submit from "./Submissions/Submit"
 import Ask from "./Submissions/Ask"
 import SubmissionsEdit from "./Submissions/Edit"
 import SubmissionsDelete from "./Submissions/Delete"
 import Item from "./Submissions/Item"
-=======
-import Profile from './Users/Profile'
->>>>>>> Stashed changes
-
 
 import Reply from "./Comments/Reply"
 import CommentsEdit from "./Comments/Edit"
@@ -42,7 +37,6 @@ root.render(
         {/* Submissions */}
         <Route path="/news" element={<News/>}/>
         <Route path="/newest" element={<Newest/>}/>
-<<<<<<< Updated upstream
         <Route path="/submit" element={<Submit/>}/>
         <Route path="/ask" element={<Ask/>}/>
         <Route path="/submission/edit" element={<SubmissionsEdit/>}/>
@@ -58,11 +52,9 @@ root.render(
         {/* user */}
         <Route path="/user/submissions" element={<SubmissionsUser/>}/>
         <Route path="/user/upvotedsubmissions" element={<UpVotedSubmissionsUser/>}/>
+        <Route path="/user" element={<Profile/>}/>
 
         {/* default */}
-=======
-        <Route path="/user" element={<Profile/>}/>
->>>>>>> Stashed changes
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>

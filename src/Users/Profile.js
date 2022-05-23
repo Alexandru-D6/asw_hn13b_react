@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 import '../CSS/Profile.css';
-<<<<<<< Updated upstream
 import moment from "moment";
 
-=======
->>>>>>> Stashed changes
-
-import { Routes, Route, useNavigate} from "react-router-dom";
 
 
 class Profile extends Component {
@@ -16,7 +11,28 @@ class Profile extends Component {
           item: [],
           isLoaded: false,
           aboutValue: "",
-        }
+        };
+      this.handleUpdate = this.handleUpdate.bind(this);
+      this.handleChangeAbout = this.handleChangeAbout.bind(this);
+    }
+
+    handleUpdate(event) {
+      event.preventDefault();
+      const requestOpt = {
+        method: 'PUT',
+        headers: {
+            'X-API-KEY': process.env.REACT_APP_API_KEY,
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({about: this.state.aboutValue})
+    }
+      fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/edit', requestOpt)
+      console.log("hello quim");
+    }
+
+    handleChangeAbout(event) {
+      this.setState({aboutValue: event.target.value});
     }
 
     componentDidMount() {
@@ -30,10 +46,7 @@ class Profile extends Component {
           this.setState({
             isLoaded: true,
             item: json.user,
-<<<<<<< Updated upstream
             aboutValue: json.user.about,
-=======
->>>>>>> Stashed changes
           })
         })
     }
@@ -42,16 +55,20 @@ class Profile extends Component {
         var{ isLoaded, item} = this.state
     
         if (!isLoaded) {
-          return <table>
-                    <tbody>Loading....</tbody>
-                  </table>
+          return 
+            <div>Loading....</div>
+                  
         }else {
           console.log(item);
           return (
-<<<<<<< Updated upstream
-            <body>
+            <div align="center">
               <table border="0" cellPadding="0" width="85%" bgcolor="#f6f6ef">
                 <tbody>
+                  <tr>
+                    <td>
+                      <span> &nbsp;</span>
+                    </td>
+                  </tr>
                   <tr className="athing">
                     <td valign='top'>user: </td>
                     <td>{item.name}</td>
@@ -63,7 +80,7 @@ class Profile extends Component {
                   <tr>
                     <td valign='top'>about: </td>
                     <td>
-                      <textarea cols="60" rows="5" wrap="virtual" name="about" defaultValue={this.state.about}>{item.about}</textarea>
+                      <textarea cols={70} rows={5} name="about" value={this.state.aboutValue } onChange={this.handleChangeAbout}></textarea>
                     </td>
                   </tr>
                   <tr>
@@ -98,20 +115,16 @@ class Profile extends Component {
                       <span>(private)</span>
                     </td>
                   </tr>
+                  <tr>
+                    <td>
+                      <span> &nbsp;</span>
+                    </td>
+                  </tr>
                 </tbody>
+                <input type="submit" value= "update" onClick={this.handleUpdate}></input>
               </table>
               <br></br>
-              <input type="submit" value= "update"></input>
-            </body>
-=======
-            <div className="Profile">
-              <ul>
-                  <li>
-                    {item.created_at}
-                  </li>
-                </ul>
             </div>
->>>>>>> Stashed changes
           );
         }
         
