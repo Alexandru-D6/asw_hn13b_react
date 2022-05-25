@@ -34,6 +34,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Navbar />
+    <div style={{backgroundColor:"#f6f6ef"}}>
     <Router>
       <Routes>
         {/* Submissions */}
@@ -52,7 +53,7 @@ root.render(
         
         {/* user */}
         <Route path="/threads" element={<Threads/>}/>
-        <Route path="/user/submissions" element={<SubmissionsUser/>}/>
+        <Route path="/submitted" element={<SubmissionsUser/>}/>
         <Route path="/user/upvotedsubmissions" element={<UpVotedSubmissionsUser/>}/>
         <Route path="/user/upvotedcomments" element={<UpVotedCommentsUser/>}/>
         <Route path="/user" element={<Profile/>}/>
@@ -61,6 +62,7 @@ root.render(
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
+  </div>
   </React.StrictMode>
 );
 

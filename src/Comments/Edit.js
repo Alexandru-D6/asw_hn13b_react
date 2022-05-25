@@ -25,6 +25,7 @@ class Edit extends Component {
             isLoaded1: false,
             isLoaded2: false,
             title_submission: "",
+            id_submission: "",
             comment: {},
             status: 200,
             error: "",
@@ -37,8 +38,11 @@ class Edit extends Component {
     componentDidMount() {
         var url = new URL(window.location.href)
         let id = url.searchParams.get("id")
+        let id_submission_t = url.searchParams.get("id_submission")
 
-        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/' + id)
+        this.setState({id_submission: id_submission_t})
+
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + id_submission_t + '/comments/' + id)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -50,7 +54,7 @@ class Edit extends Component {
                 })
                 return json
             }).then(json => {
-                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + json.comment.id_submission)
+                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + json.comment.id_submission)
                     .then(res => res.json())
                     .then(json => {
                         this.setState({
@@ -102,7 +106,7 @@ class Edit extends Component {
 
                     <Comment userUpvoted={this.state.upvotedComments.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/>
                     
-                    <EditForm originalSubmission={this.state.comment.id_submission}/>
+                    <EditForm id_submission={this.state.comment.id_submission}/>
 
                 </div>
             );

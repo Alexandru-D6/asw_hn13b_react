@@ -15,7 +15,7 @@ const Navbar = () => {
                         <a className="nav-link" href="/newest">New</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="/threads">Threads</a>
+                        <a className="nav-link" href={"/threads?id="+process.env.REACT_APP_API_KEY_NAME}>Threads</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="/submit">Submit</a>

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import "../CSS/Item.css"
 import ReplyForm from "../Comments/ReplyForm"
 import Comment from "../Comments/Comment"
+import { useLocation, useParams, useRoutes } from 'react-router-dom';
 
 function DisplayErrorsNoTable(props) {
     var status = props.status
@@ -17,7 +18,14 @@ function DisplayErrorsNoTable(props) {
     return (<span></span>)
 }
 
-class Reply extends Component {
+function withMyHook(Component) {
+    return function WrappedComponent(props) {
+        //console.log(useLocation())
+      return <Component {...props} />;
+    }
+  }
+
+class Reply extends React.Component {
 
     constructor(props) {
         super(props);
@@ -25,6 +33,7 @@ class Reply extends Component {
             isLoaded1: false,
             isLoaded2: false,
             title_submission: "",
+            id_submission: 22,
             comment: {},
             status: 200,
             error: "",
@@ -37,8 +46,12 @@ class Reply extends Component {
     componentDidMount() {
         var url = new URL(window.location.href)
         let id = url.searchParams.get("id")
+        let id_submission_t = url.searchParams.get("id_submission")
 
-        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/' + id)
+        this.setState({id_submission: id_submission_t})
+
+
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + id_submission_t + '/comments/' + id)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -50,7 +63,7 @@ class Reply extends Component {
                 })
                 return json
             }).then(json => {
-                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + json.comment.id_submission)
+                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + json.comment.id_submission)
                     .then(res => res.json())
                     .then(json => {
                         this.setState({
@@ -102,7 +115,7 @@ class Reply extends Component {
 
                     <Comment userUpvoted={this.state.upvotedComments.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/>
                     
-                    <ReplyForm originalSubmission={this.state.comment.id_submission}/>
+                    <ReplyForm id_submission={this.state.comment.id_submission}/>
 
                 </div>
             );
@@ -110,4 +123,4 @@ class Reply extends Component {
         
     }
 }
-export default Reply;
+export default withMyHook(Reply);

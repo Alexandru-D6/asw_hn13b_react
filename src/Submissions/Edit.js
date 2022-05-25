@@ -39,7 +39,7 @@ class Edit extends Component {
         var url = new URL(window.location.href)
         let id = url.searchParams.get("id")
 
-        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + id)
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + id)
             .then(res => res.json())
             .then(json => {
                 this.setState({

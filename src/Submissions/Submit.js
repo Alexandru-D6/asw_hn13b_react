@@ -59,7 +59,7 @@ class AboutForm extends Component {
             },
             body: JSON.stringify({title: this.state.title, text: this.state.text, url: this.state.url})
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/create", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions", requestOpt)
         .then(res => res.json())
         .then(json => {
             this.setState({

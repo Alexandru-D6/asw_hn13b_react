@@ -48,9 +48,9 @@ class CommentForm extends Component {
                 'accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({id_submission: id, comment: this.state.comment})
+            body: JSON.stringify({comment: this.state.comment})
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comments", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + id + "/comments", requestOpt)
         .then(res => res.json())
         .then(json => {
             this.setState({

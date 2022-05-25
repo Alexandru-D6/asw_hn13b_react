@@ -47,11 +47,10 @@ class Profile extends Component {
         },
         body: JSON.stringify({about: this.state.aboutValue})
     }
-      fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/edit', requestOpt)
+      fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users', requestOpt)
         .then(res => res.json())
         .then(json => {
           this.setState({
-            isLoaded: true,
             status2: json.status,
             error2: json.error,
             messg2: json.message,            
@@ -72,26 +71,21 @@ class Profile extends Component {
       /// process.env.REACT_APP_API = api key
       var url = new URL(window.location.href)
       let id = url.searchParams.get("id")
-      fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/user/'+ id)
-        .then(res => res.json())
-        .then(json => {
-          this.setState({
-            isLoaded: true,
-            item: json.user,
-            aboutValue: json.user.about,
-            status: json.status,
-            error: json.error,
-            messg: json.message,
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/'+ id)
+          .then(res => {
+            if (!res.ok) res = null
+            return res
           })
-        })
+          .catch(function(error) {
+            console.log(error)
+          })
     }
     render() {
 
         var{ isLoaded, item} = this.state
     
         if (!isLoaded) {
-          return 
-            <div>Loading....</div>
+          return <div>Loading....</div>
                   
         }else {
           return (
@@ -104,41 +98,41 @@ class Profile extends Component {
                         <DisplayErrorsNoTable status={this.state.status2} error={this.state.error2} message={this.state.messg2}/>
                         :
                         <div>
-                          <table width="85%" bgcolor="#f6f6ef">
+                          <table width="85%">
                             <tbody>
                               <tr>
-                                <td>
+                                <td width="5%">
                                   <span> &nbsp;</span>
                                 </td>
-                                <td></td>
+                                <td width="100%"></td>
                               </tr>
-                              <tr className="athing" max-width = "33%">
+                              <tr className="athing">
                                 <td valign='top'>user: </td>
                                 <td>{item.name}</td>
                               </tr>
-                              <tr max-width = "33%">
+                              <tr>
                                 <td valign='top'>created: </td>
                                 <td>{moment.utc(item.created_at).local().startOf('seconds').fromNow()}</td>
                               </tr>
-                              <tr max-width = "33%">
+                              <tr>
                                 <td valign='top'>about: </td>
                                 <td>
                                   {(item.name !== process.env.REACT_APP_API_KEY_NAME)?
-                                    <a>{item.about}</a>
+                                    <font>{item.about}</font>
                                   :
                                   <textarea cols={70} rows={5} name="about" value={this.state.aboutValue } onChange={this.handleChangeAbout}></textarea>
                                   }
                                 </td>
                               </tr>
-                              <tr max-width = "33%">
+                              <tr>
                                 <td></td>
                                 <td>
-                                  <a href={'user/submissions?id=' + item.name}>
+                                  <a href={'/submitted?id=' + item.name}>
                                     <u>submissions</u>
                                   </a>
                                 </td>
                               </tr>
-                              <tr max-width = "33%">
+                              <tr>
                                 <td></td>
                                 <td>
                                   <a href={'/threads?id=' + item.name}>
@@ -147,9 +141,9 @@ class Profile extends Component {
                                 </td>
                               </tr>
                               {(item.name !== process.env.REACT_APP_API_KEY_NAME)?
-                              <tr max-width = "33%"></tr>
+                              <tr></tr>
                               :
-                              <tr max-width = "33%">
+                              <tr>
                                 <td></td>                  
                                 <td>
                                   <a href={'user/upvotedsubmissions'}>
@@ -167,15 +161,18 @@ class Profile extends Component {
                                   
                               </tr>
                               }
-                              <tr max-width = "33%">
+                              <tr>
                                 <td>
                                   <span> &nbsp;</span>
                                 </td>
                                 <td></td>
                               </tr>
-                              <tr max-width = "33%">
+                              <tr>
                               <td>
-                                <input type="submit" value= "update" onClick={this.handleUpdate}></input>
+                                {(item.name === process.env.REACT_APP_API_KEY_NAME)?
+                                  <input type="submit" value= "update" onClick={this.handleUpdate}></input> :
+                                  <div></div>
+                                }
                               </td>
                               <td>{"\u00a0"}</td>
                             </tr>

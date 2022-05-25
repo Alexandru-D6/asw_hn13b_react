@@ -29,7 +29,7 @@ class Submission extends Component {
                 'Content-Type': 'application/json'
             },
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/" + this.state.submission.id + "/upvote", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.submission.id + "/upvote", requestOpt)
         .then(res => res.json())
         .then(json => {
             window.location.reload()
@@ -46,7 +46,7 @@ class Submission extends Component {
                 'Content-Type': 'application/json'
             },
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/" + this.state.submission.id + "/unvote", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.submission.id + "/unvote", requestOpt)
         .then(res => res.json())
         .then(json => {
             window.location.reload()

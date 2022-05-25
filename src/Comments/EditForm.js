@@ -24,7 +24,7 @@ class EditForm extends Component {
             status: 200,
             error: "",
             message: "",
-            originalSubmission: props.originalSubmission
+            id_submission: props.id_submission
         };
   
       this.handleChangeOnComment = this.handleChangeOnComment.bind(this);
@@ -51,7 +51,7 @@ class EditForm extends Component {
             },
             body: JSON.stringify({comment: this.state.comment})
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/" + id + "/edit", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.id_submission + "/comments/" + id, requestOpt)
         .then(res => res.json())
         .then(json => {
             this.setState({
@@ -61,7 +61,7 @@ class EditForm extends Component {
                 message: json.message
             })
             if (json.status === 200 || json.status === 201 || json.status === 202 || json.status === 203) {
-                window.location.replace(window.location.origin + "/item?id=" + this.state.originalSubmission)
+                window.location.replace(window.location.origin + "/item?id=" + this.state.id_submission)
             }
         })
     }

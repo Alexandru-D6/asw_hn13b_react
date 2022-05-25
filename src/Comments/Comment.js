@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 
+import { Link } from 'react-router-dom';
+
 class Comment extends Component {
     constructor(props) {
         super(props);
@@ -8,7 +10,8 @@ class Comment extends Component {
             isLoaded: false,
             comment: props.comment,
             userUpvoted: props.userUpvoted,
-            title_submission: ""
+            title_submission: "",
+            id_submission: props.comment.id_submission,
         };
 
         this.handleUpVote = this.handleUpVote.bind(this);
@@ -26,10 +29,11 @@ class Comment extends Component {
                 'Content-Type': 'application/json'
             },
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/" + this.state.comment.id + "/upvote", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.id_submission + "/comments/" + this.state.comment.id + "/upvote", requestOpt)
         .then(res => res.json())
         .then(json => {
-            window.location.reload()
+            if (json.status === 200)
+                this.setState({userUpvoted: true})
         })
     }
 
@@ -43,16 +47,17 @@ class Comment extends Component {
                 'Content-Type': 'application/json'
             },
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/" + this.state.comment.id + "/unvote", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.id_submission + "/comments/" + this.state.comment.id + "/unvote", requestOpt)
         .then(res => res.json())
         .then(json => {
-            window.location.reload()
+            if (json.status === 200)
+                this.setState({userUpvoted: false})
         })
     }
 
     componentDidMount() {
 
-        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + this.state.comment.id_submission)
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + this.state.comment.id_submission)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -69,9 +74,9 @@ class Comment extends Component {
     render() {
         if (!this.state.isLoaded) return
         return (
-            <table width="85%">
+            <table width="100%">
                 <tbody>
-                    <tr id={this.state.comment.id}>
+                    <tr id={this.state.comment.id} width="100%">
                         <td valign="top" className="votelinks">
                             <center>
                                 {process.env.REACT_APP_API_KEY_NAME === this.state.comment.author ?
@@ -99,9 +104,9 @@ class Comment extends Component {
                             
                             {this.state.comment.author === process.env.REACT_APP_API_KEY_NAME &&
                                 <span>
-                                    <a href={"/comments/edit?id="+this.state.comment.id}>edit</a>
+                                    <a href={"/comments/edit?id="+this.state.comment.id+"&id_submission="+this.state.comment.id_submission}>edit</a>
                                     <span> | </span>
-                                    <a href={"/comments/delete?id="+this.state.comment.id}>delete</a>
+                                    <a href={"/comments/delete?id="+this.state.comment.id+"&id_submission="+this.state.comment.id_submission}>delete</a>
                                     <span> | </span>
                                 </span>
                                 
@@ -130,7 +135,7 @@ class Comment extends Component {
                         <td></td>
                         <td>
                             <span>
-                                <a href={"/reply?id="+this.state.comment.id}>reply</a> {/*falta pasarle la url*/}
+                                <Link to={{ pathname: "/reply?id="+this.state.comment.id+"&id_submission="+this.state.comment.id_submission }}>reply</Link> {/*falta pasarle la url*/}
                             </span>
                         </td>
                     </tr>

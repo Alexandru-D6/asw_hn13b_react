@@ -39,7 +39,7 @@ class SubmissionsUser extends Component {
   componentDidMount() {
     var url = new URL(window.location.href)
     let id = url.searchParams.get("id")
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/user/'+ id + '/submissions')
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/'+ id + '/submissions')
       .then(res => res.json())
       .then(json => {
         this.setState({

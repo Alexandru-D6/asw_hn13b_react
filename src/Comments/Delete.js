@@ -25,6 +25,7 @@ class Delete extends Component {
             isLoaded1: false,
             isLoaded2: false,
             title_submission: "",
+            id_submission: props.id_submission,
             comment: {},
             status: 200,
             error: "",
@@ -43,20 +44,23 @@ class Delete extends Component {
                 'X-API-KEY': process.env.REACT_APP_API_KEY,
                 'accept': 'application/json',
                 'Content-Type': 'application/json'
-            },
+            }
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/" + this.state.comment.id, requestOpt)
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + this.state.comment.id_submission + '/comments/' + this.state.comment.id, requestOpt)
         .then(res => res.json())
         .then(json => {
-            window.location.replace(window.location.origin + "/news")
+            window.location.replace(window.location.origin + "/item?id="+this.state.id_submission)
         })
     }
 
     componentDidMount() {
         var url = new URL(window.location.href)
         let id = url.searchParams.get("id")
+        let id_submission_t = url.searchParams.get("id_submission")
 
-        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/comment/' + id)
+        this.setState({id_submission: id_submission_t})
+
+        fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + id_submission_t + '/comments/' + id)
             .then(res => res.json())
             .then(json => {
                 this.setState({
@@ -68,7 +72,7 @@ class Delete extends Component {
                 })
                 return json
             }).then(json => {
-                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/' + json.comment.id_submission)
+                fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + json.comment.id_submission)
                     .then(res => res.json())
                     .then(json => {
                         this.setState({

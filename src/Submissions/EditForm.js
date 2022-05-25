@@ -93,7 +93,7 @@ class EditForm extends Component {
             }
         }
         
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submission/" + id + "/edit", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + id, requestOpt)
         .then(res => res.json())
         .then(json => {
             this.setState({

@@ -37,7 +37,7 @@ class Threads extends Component {
   componentDidMount() {
     var url = new URL(window.location.href)
     let id = url.searchParams.get("id")
-    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/user/'+id+'/comments')
+    fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/'+id+'/comments')
       .then(res => res.json())
       .then(json => {
         this.setState({
@@ -77,9 +77,9 @@ class Threads extends Component {
   }
 
   render() {
-    var{ isLoaded} = this.state
+    var{ isLoaded, isLoaded2} = this.state
 
-    if (!isLoaded || !this.state.isLoaded2) {
+    if (!isLoaded || !isLoaded2) {
     return <div>Loading....</div>
     }else {
         return ( //html

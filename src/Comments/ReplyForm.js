@@ -24,7 +24,7 @@ class ReplyForm extends Component {
             status: 200,
             error: "",
             message: "",
-            originalSubmission: props.originalSubmission
+            id_submission: props.id_submission
         };
   
       this.handleChangeOnComment = this.handleChangeOnComment.bind(this);
@@ -49,9 +49,9 @@ class ReplyForm extends Component {
                 'accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({id_submission: this.state.originalSubmission, comment: this.state.comment, id_comment_father: id})
+            body: JSON.stringify({id_submission: this.state.id_submission, comment: this.state.comment, id_comment_father: id})
         }
-        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/comments", requestOpt)
+        fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.id_submission + "/comments", requestOpt)
         .then(res => res.json())
         .then(json => {
             this.setState({
@@ -61,7 +61,7 @@ class ReplyForm extends Component {
                 message: json.message
             })
             if (json.status === 200 || json.status === 201 || json.status === 202 || json.status === 203) {
-                window.location.replace(window.location.origin + "/item?id=" + this.state.originalSubmission)
+                window.location.replace(window.location.origin + "/item?id=" + this.state.id_submission)
             }
         })
     }
