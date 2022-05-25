@@ -8,13 +8,12 @@ function DisplayErrorsNoTable(props) {
   var error = props.error
   var message = props.message
 
-  if (status !== 200 && status !== 201 && status !== 202 && status !== 203 && status !== undefined) {
-      return(
-          <span style={{color: "red"}}>{error + ": " + message}</span>
-      )
-  }
+  if (message === undefined) message = ""
+  else message = ": " + message
 
-  return (<span></span>)
+  return(
+    <span style={{color: "red"}}>{status + " " + error + message}</span>
+  )
 }
 
 
@@ -27,10 +26,7 @@ class Profile extends Component {
           aboutValue: "",
           status: 200,
           error: "",
-          messg: "",
-          status2: 200,
-          error2: "",
-          messg2: "",
+          message: "",
         };
       this.handleUpdate = this.handleUpdate.bind(this);
       this.handleChangeAbout = this.handleChangeAbout.bind(this);
@@ -48,16 +44,30 @@ class Profile extends Component {
         body: JSON.stringify({about: this.state.aboutValue})
     }
       fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users', requestOpt)
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) {
+            res.json().then(a => {
+              this.setState({
+                status: a.status,
+                error: a.error,
+                message: a.message,
+              })
+              console.log(a)
+            }).catch(error => {console.log(error)})
+            throw Error(res.status + " --> " + res.statusText)
+          }else return res.json()
+        })
         .then(json => {
           this.setState({
-            status2: json.status,
-            error2: json.error,
-            messg2: json.message,            
+            status: json.status,
+            error: json.error,
+            message: json.message,            
           })
           return json
         })
-      console.log("hello quim");
+        .catch(function(error) {
+          console.log(error)
+        })
     }
 
     handleChangeAbout(event) {
@@ -73,8 +83,28 @@ class Profile extends Component {
       let id = url.searchParams.get("id")
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/'+ id)
           .then(res => {
-            if (!res.ok) res = null
-            return res
+            if (!res.ok) {
+              res.json().then(a => {
+                this.setState({
+                  isLoaded: true,
+                  status: a.status,
+                  error: a.error,
+                  message: a.message,
+                })
+              }).catch(error => {console.log(error)})
+              throw Error(res.status + " --> " + res.statusText)
+            }else return res.json()
+          })
+          .then(json => {
+            console.log(json)
+            this.setState({
+              isLoaded: true,
+              item: json.user,
+              aboutValue: json.user.about,
+              status: json.status,
+              error: json.error,
+              message: json.message,
+            })
           })
           .catch(function(error) {
             console.log(error)
@@ -91,11 +121,11 @@ class Profile extends Component {
           return (
             <div align="center">
               {(this.state.status !== 200 && this.state.status !== 201 && this.state.status !== 202 && this.state.status !== 203 && this.state.status !== undefined)?
-                  <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.messg}/>
+                  <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
                   :
                   <div>
                     {(this.state.status2 !== 200 && this.state.status2 !== 201 && this.state.status2 !== 202 && this.state.status2 !== 203 && this.state.status2 !== undefined)?
-                        <DisplayErrorsNoTable status={this.state.status2} error={this.state.error2} message={this.state.messg2}/>
+                        <DisplayErrorsNoTable status={this.state.status2} error={this.state.error2} message={this.state.message2}/>
                         :
                         <div>
                           <table width="85%">

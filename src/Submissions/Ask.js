@@ -20,30 +20,63 @@ class Ask extends Component {
 
   componentDidMount() {
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/ask')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
+            this.setState({
+              isLoaded: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
+            })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
       .then(json => {
         this.setState({
           isLoaded: true,
           items: json.submissions,
         })
       })
-      const requestOptions = {
-        method: 'GET',
-        headers: { 'x-api-key': process.env.REACT_APP_API_KEY },
+      .catch(function(error) {
+        console.log(error)
+      })
+      
+    const requestOptions = {
+      method: 'GET',
+      headers: { 'x-api-key': process.env.REACT_APP_API_KEY },
     };
       fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOptions)
-      .then(res => res.json())
-      .then(json => {
-        var temp = []
-    
-        json.submissions.map((submission) => (
-            temp.push(submission.id)
-        ))
-        this.setState({
-          voted: temp,
-          isLoadedC: true,
+        .then(res => {
+          if (!res.ok) {
+            res.json().then(a => {
+              this.setState({
+                isLoadedC: true,
+                status: a.status,
+                error: a.error,
+                message: a.message,
+              })
+              console.log(a)
+            }).catch(error => {console.log(error)})
+            throw Error(res.status + " --> " + res.statusText)
+          }else return res.json()
         })
-    })
+        .then(json => {
+          var temp = []
+      
+          json.submissions.map((submission) => (
+              temp.push(submission.id)
+          ))
+          this.setState({
+            voted: temp,
+            isLoadedC: true,
+          })
+        })
+        .catch(function(error) {
+          console.log(error)
+        })
   }
 
   render() {

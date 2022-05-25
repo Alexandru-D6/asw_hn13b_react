@@ -39,22 +39,38 @@ class UpVotedComments extends Component {
       },
     }
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedComments/', requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            var temp = []
-        
-            json.comments.map((comment) => (
-                temp.push(comment.id)
-            ))
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
             this.setState({
-                isLoaded: true,
-                items: json.comments,
-                userUpvoted: true,
-                status: json.status,
-                error: json.error,
-                message: json.message,
+              isLoaded: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
             })
-        })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
+      .then(json => {
+          var temp = []
+      
+          json.comments.map((comment) => (
+              temp.push(comment.id)
+          ))
+          this.setState({
+              isLoaded: true,
+              items: json.comments,
+              userUpvoted: true,
+              status: json.status,
+              error: json.error,
+              message: json.message,
+          })
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
   }
 
   render() {

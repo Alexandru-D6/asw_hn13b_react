@@ -46,10 +46,25 @@ class Delete extends Component {
             },
         }
         fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.submission.id, requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            window.location.replace(window.location.origin + "/news")
-        })
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
+            .then(json => {
+                window.location.replace(window.location.origin + "/news")
+            })
+            .catch(function(error) {
+                console.log(error)
+            })
     }
     
 
@@ -58,7 +73,20 @@ class Delete extends Component {
         let id = url.searchParams.get("id")
 
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + id)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded1: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
             .then(json => {
                 this.setState({
                     isLoaded1: true,
@@ -68,6 +96,9 @@ class Delete extends Component {
                     message: json.message,
                 })
                 return json
+            })
+            .catch(function(error) {
+                console.log(error)
             })
         
         const requestOpt = {
@@ -79,7 +110,20 @@ class Delete extends Component {
             },
         }
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions/', requestOpt)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded2: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
             .then(json => {
                 var temp = []
             
@@ -89,10 +133,13 @@ class Delete extends Component {
                 this.setState({
                     isLoaded2: true,
                     upvoted: temp,
-                    status2: json.status,
-                    error2: json.error,
-                    message2: json.message,
+                    status: json.status,
+                    error: json.error,
+                    message: json.message,
                 })
+            })
+            .catch(function(error) {
+                console.log(error)
             })
     }
 

@@ -30,10 +30,25 @@ class Submission extends Component {
             },
         }
         fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.submission.id + "/upvote", requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            window.location.reload()
-        })
+          .then(res => {
+            if (!res.ok) {
+              res.json().then(a => {
+                this.setState({
+                  status: a.status,
+                  error: a.error,
+                  message: a.message,
+                })
+                console.log(a)
+              }).catch(error => {console.log(error)})
+              throw Error(res.status + " --> " + res.statusText)
+            }else return res.json()
+          })
+          .then(json => {
+            this.setState({userUpvoted: true})
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
     }
 
     handleUnVote(event) {
@@ -47,10 +62,25 @@ class Submission extends Component {
             },
         }
         fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.submission.id + "/unvote", requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            window.location.reload()
-        })
+          .then(res => {
+            if (!res.ok) {
+              res.json().then(a => {
+                this.setState({
+                  status: a.status,
+                  error: a.error,
+                  message: a.message,
+                })
+                console.log(a)
+              }).catch(error => {console.log(error)})
+              throw Error(res.status + " --> " + res.statusText)
+            }else return res.json()
+          })
+          .then(json => {
+            this.setState({userUpvoted: false})
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
     }
 
     componentDidMount() {

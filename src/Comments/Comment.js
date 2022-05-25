@@ -30,11 +30,27 @@ class Comment extends Component {
             },
         }
         fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.id_submission + "/comments/" + this.state.comment.id + "/upvote", requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            if (json.status === 200)
-                this.setState({userUpvoted: true})
-        })
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
+            .then(json => {
+                if (json.status === 200)
+                    this.setState({userUpvoted: true})
+            })
+            .catch(function(error) {
+                console.log(error)
+            })
     }
 
     handleUnVote(event) {
@@ -48,17 +64,46 @@ class Comment extends Component {
             },
         }
         fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/" + this.state.id_submission + "/comments/" + this.state.comment.id + "/unvote", requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            if (json.status === 200)
-                this.setState({userUpvoted: false})
-        })
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
+            .then(json => {
+                if (json.status === 200)
+                    this.setState({userUpvoted: false})
+            })
+            .catch(function(error) {
+                console.log(error)
+            })
     }
 
     componentDidMount() {
 
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + this.state.comment.id_submission)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
             .then(json => {
                 this.setState({
                     isLoaded: true,
@@ -67,6 +112,9 @@ class Comment extends Component {
                     error: json.error,
                     message: json.message,
                 })
+            })
+            .catch(function(error) {
+                console.log(error)
             })
 
     }

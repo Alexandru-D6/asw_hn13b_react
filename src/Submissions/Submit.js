@@ -8,7 +8,7 @@ function DisplayErrors(props) {
     if (status !== 200 && status !== 201 && status !== 202 && status !== 203) {
         return(
             <tr>
-                <td style={{color: "red"}}>{error + ": " + message}</td>
+                <td style={{color: "red"}}>{status + " " + error + ": " + message}</td>
             </tr>
         )
     }
@@ -60,18 +60,34 @@ class AboutForm extends Component {
             body: JSON.stringify({title: this.state.title, text: this.state.text, url: this.state.url})
         }
         fetch("https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions", requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            this.setState({
-                isLoaded: true,
-                status: json.status,
-                error: json.error,
-                message: json.message
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
             })
-            if (json.status === 200 || json.status === 201 || json.status === 202 || json.status === 203) {
-                window.location.replace(window.location.origin + "/News")
-            }
-        })
+            .then(json => {
+                this.setState({
+                    isLoaded: true,
+                    status: json.status,
+                    error: json.error,
+                    message: json.message
+                })
+                if (json.status === 200 || json.status === 201 || json.status === 202 || json.status === 203) {
+                    window.location.replace(window.location.origin + "/News")
+                }
+            })
+            .catch(function(error) {
+                console.log(error)
+            })
     }
   
     render() {

@@ -38,7 +38,20 @@ class Threads extends Component {
     var url = new URL(window.location.href)
     let id = url.searchParams.get("id")
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/'+id+'/comments')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
+            this.setState({
+              isLoaded: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
+            })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
       .then(json => {
         this.setState({
           isLoaded: true,
@@ -50,6 +63,10 @@ class Threads extends Component {
         })
         return json
       })
+      .catch(function(error) {
+        console.log(error)
+      })
+
     const requestOpt = {
       method: 'GET',
       headers: {
@@ -59,21 +76,37 @@ class Threads extends Component {
       },
     }
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedComments/', requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            var temp = []
-        
-            json.comments.map((comment) => (
-                temp.push(comment.id)
-            ))
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
             this.setState({
-                isLoaded2: true,
-                userUpvoted: temp,
-                status2: json.status,
-                error2: json.error,
-                message2: json.message,
+              isLoaded2: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
             })
-        })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
+      .then(json => {
+          var temp = []
+      
+          json.comments.map((comment) => (
+              temp.push(comment.id)
+          ))
+          this.setState({
+              isLoaded2: true,
+              userUpvoted: temp,
+              status: json.status,
+              error: json.error,
+              message: json.message,
+          })
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
   }
 
   render() {

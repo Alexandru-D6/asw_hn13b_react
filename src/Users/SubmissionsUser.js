@@ -40,7 +40,20 @@ class SubmissionsUser extends Component {
     var url = new URL(window.location.href)
     let id = url.searchParams.get("id")
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/'+ id + '/submissions')
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
+            this.setState({
+              isLoaded: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
+            })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
       .then(json => {
         this.setState({
           isLoaded: true,
@@ -51,30 +64,51 @@ class SubmissionsUser extends Component {
           message: json.message,
         })
       })
-      const requestOpt = {
-        method: 'GET',
-        headers: {
-            'X-API-KEY': process.env.REACT_APP_API_KEY,
-            'accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+      .catch(function(error) {
+        console.log(error)
+      })
+
+
+    const requestOpt = {
+      method: 'GET',
+      headers: {
+          'X-API-KEY': process.env.REACT_APP_API_KEY,
+          'accept': 'application/json',
+          'Content-Type': 'application/json'
+      },
     }
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions/', requestOpt)
-        .then(res => res.json())
-        .then(json => {
-            var temp = []
-        
-            json.submissions.map((submission) => (
-                temp.push(submission.id)
-            ))
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
             this.setState({
-                isLoaded2: true,
-                upvoted: temp,
-                status2: json.status,
-                error2: json.error,
-                message2: json.message,
+              isLoaded2: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
             })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
+      .then(json => {
+        var temp = []
+    
+        json.submissions.map((submission) => (
+            temp.push(submission.id)
+        ))
+        this.setState({
+            isLoaded2: true,
+            upvoted: temp,
+            status: json.status,
+            error: json.error,
+            message: json.message,
         })
+      })
+      .catch(function(error) {
+        console.log(error)
+      })
   }
 
   render() {

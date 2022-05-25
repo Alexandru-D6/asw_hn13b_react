@@ -43,7 +43,20 @@ class Edit extends Component {
         this.setState({id_submission: id_submission_t})
 
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + id_submission_t + '/comments/' + id)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded1: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
             .then(json => {
                 this.setState({
                     isLoaded1: false,
@@ -55,7 +68,20 @@ class Edit extends Component {
                 return json
             }).then(json => {
                 fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + json.comment.id_submission)
-                    .then(res => res.json())
+                    .then(res => {
+                        if (!res.ok) {
+                        res.json().then(a => {
+                            this.setState({
+                            isLoaded1: true,
+                            status: a.status,
+                            error: a.error,
+                            message: a.message,
+                            })
+                            console.log(a)
+                        }).catch(error => {console.log(error)})
+                        throw Error(res.status + " --> " + res.statusText)
+                        }else return res.json()
+                    })
                     .then(json => {
                         this.setState({
                             isLoaded1: true,
@@ -65,6 +91,12 @@ class Edit extends Component {
                             message: json.message,
                         })
                     })
+                    .catch(function(error) {
+                        console.log(error)
+                    })
+            })
+            .catch(function(error) {
+                console.log(error)
             })
         
         const requestOpt = {
@@ -76,7 +108,20 @@ class Edit extends Component {
             },
         }
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedComments/', requestOpt)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                res.json().then(a => {
+                    this.setState({
+                    isLoaded2: true,
+                    status: a.status,
+                    error: a.error,
+                    message: a.message,
+                    })
+                    console.log(a)
+                }).catch(error => {console.log(error)})
+                throw Error(res.status + " --> " + res.statusText)
+                }else return res.json()
+            })
             .then(json => {
                 var temp = []
             
@@ -90,6 +135,9 @@ class Edit extends Component {
                     error: json.error,
                     message: json.message,
                 })
+            })
+            .catch(function(error) {
+                console.log(error)
             })
     }
 

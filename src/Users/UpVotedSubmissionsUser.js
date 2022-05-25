@@ -42,7 +42,20 @@ class SubmissionsUser extends Component {
         },
     }
     fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/users/upvotedSubmissions',requestOpt)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          res.json().then(a => {
+            this.setState({
+              isLoaded: true,
+              status: a.status,
+              error: a.error,
+              message: a.message,
+            })
+            console.log(a)
+          }).catch(error => {console.log(error)})
+          throw Error(res.status + " --> " + res.statusText)
+        }else return res.json()
+      })
       .then(json => {
         this.setState({
           isLoaded: true,
@@ -52,6 +65,9 @@ class SubmissionsUser extends Component {
           error: json.error,
           message: json.message,
         })
+      })
+      .catch(function(error) {
+        console.log(error)
       })
   }
 
