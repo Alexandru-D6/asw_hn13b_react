@@ -17,7 +17,6 @@ import SubmissionsEdit from "./Submissions/Edit"
 import SubmissionsDelete from "./Submissions/Delete"
 import Item from "./Submissions/Item"
 
-
 import Reply from "./Comments/Reply"
 import CommentsEdit from "./Comments/Edit"
 import CommentsDelete from "./Comments/Delete"
@@ -50,13 +49,13 @@ root.render(
         <Route path="/reply" element={<Reply/>}/>
         <Route path="/comments/edit" element={<CommentsEdit/>}/>
         <Route path="/comments/delete" element={<CommentsDelete/>}/>
-        <Route path="/threads" element={<Threads/>}/>
-        <Route path="/user" element={<Profile/>}/>
         
         {/* user */}
+        <Route path="/threads" element={<Threads/>}/>
         <Route path="/user/submissions" element={<SubmissionsUser/>}/>
         <Route path="/user/upvotedsubmissions" element={<UpVotedSubmissionsUser/>}/>
         <Route path="/user/upvotedcomments" element={<UpVotedCommentsUser/>}/>
+        <Route path="/user" element={<Profile/>}/>
 
         {/* default */}
         <Route path="" element={<News/>}/>
