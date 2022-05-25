@@ -1,6 +1,5 @@
 import React from "react";
 import '../CSS/ListSubmissions.css';
-import logo from '../logo.svg';
 
 const Downbar = () => {
   return (

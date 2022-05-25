@@ -3,10 +3,6 @@ import '../CSS/App.css';
 import '../CSS/ListSubmissions.css';
 import SubmissionInList from '../Submissions/SubmissionInList';
 
-
-import { Routes, Route, useNavigate} from "react-router-dom";
-
-
 class Ask extends Component {
   constructor(props) {
     super(props);

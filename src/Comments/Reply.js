@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import "../CSS/Item.css"
 import ReplyForm from "../Comments/ReplyForm"
 import Comment from "../Comments/Comment"
-import { useLocation, useParams, useRoutes } from 'react-router-dom';
 
 function DisplayErrorsNoTable(props) {
     var status = props.status
