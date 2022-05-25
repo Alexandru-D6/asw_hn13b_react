@@ -23,6 +23,7 @@ import Testing from "./Submissions/Testing"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
+import Downbar from './Navigation/Downbar';
 import TimeAgo from 'javascript-time-ago'
 
 import en from 'javascript-time-ago/locale/en.json'
@@ -48,6 +49,7 @@ root.render(
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
+  <Downbar/>
   </React.StrictMode>
 );
 
