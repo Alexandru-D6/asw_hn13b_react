@@ -96,7 +96,6 @@ class Profile extends Component {
             }else return res.json()
           })
           .then(json => {
-            console.log(json)
             this.setState({
               isLoaded: true,
               item: json.user,
