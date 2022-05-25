@@ -52,3 +52,13 @@ table {
 .subtext:link {
     text-decoration: none;
 }
+
+.downtext {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12pt;
+    color: #000000;
+}
+
+.downtext:link {
+    text-decoration: none;
+}

@@ -1,10 +1,12 @@
 import React from "react";
+import logo from '../logo.svg';
+import '../CSS/LogoBar.css';
 
 const Navbar = () => {
   return (
     <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            {'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'+'\u00A0'}
+            <img className="imagelogo" src={logo} alt="Logo" />
             <a className="navbar-brand" href="/news">
                 Hacker News
             </a>

@@ -29,6 +29,7 @@ import UpVotedCommentsUser from "./Users/UpVotedCommentsUser"
 
 import "bootstrap/dist/css/bootstrap.min.css"
 import Navbar from './Navigation/Navbar';
+import Downbar from './Navigation/Downbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -62,6 +63,7 @@ root.render(
         <Route path="" element={<News/>}/>
       </Routes>
   </Router>
+  <Downbar/>
   </div>
   </React.StrictMode>
 );
