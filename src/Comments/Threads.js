@@ -47,7 +47,7 @@ class Threads extends Component {
               error: a.error,
               message: a.message,
             })
-            console.log(a)
+             
           }).catch(error => {console.log(error)})
           throw Error(res.status + " --> " + res.statusText)
         }else return res.json()
@@ -85,7 +85,7 @@ class Threads extends Component {
               error: a.error,
               message: a.message,
             })
-            console.log(a)
+             
           }).catch(error => {console.log(error)})
           throw Error(res.status + " --> " + res.statusText)
         }else return res.json()
@@ -126,12 +126,17 @@ class Threads extends Component {
                   :
                   <div className="Threads" align="center">      
                     <table width={"85%"}> 
-                    {this.state.items.map(item => (                       
-                        <Comment 
-                        comment={item} 
-                        userUpvoted={this.state.userUpvoted.find(data => data === item.id)} 
-                        />
-                      ))}
+                      <tbody>
+                        {this.state.items.map(item => (    
+                          <tr key={item.id}>
+                            <td key={item.id}>
+                              <Comment key={item.id} 
+                              comment={item} 
+                              userUpvoted={this.state.userUpvoted.find(data => data === item.id)} />
+                            </td>
+                          </tr>                   
+                          ))}
+                      </tbody>
                     </table>
                   </div>
                 }

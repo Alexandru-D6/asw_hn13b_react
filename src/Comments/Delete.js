@@ -46,6 +46,7 @@ class Delete extends Component {
                 'Content-Type': 'application/json'
             }
         }
+
         fetch('https://serene-ridge-36448.herokuapp.com/API/v1.0/submissions/' + this.state.comment.id_submission + '/comments/' + this.state.comment.id, requestOpt)
             .then(res => {
                 if (!res.ok) {
@@ -55,7 +56,7 @@ class Delete extends Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -85,7 +86,7 @@ class Delete extends Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -110,7 +111,7 @@ class Delete extends Component {
                             error: a.error,
                             message: a.message,
                             })
-                            console.log(a)
+                             
                         }).catch(error => {console.log(error)})
                         throw Error(res.status + " --> " + res.statusText)
                         }else return res.json()
@@ -150,7 +151,7 @@ class Delete extends Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()

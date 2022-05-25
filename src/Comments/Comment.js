@@ -39,7 +39,7 @@ class Comment extends Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -73,7 +73,7 @@ class Comment extends Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -99,7 +99,7 @@ class Comment extends Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -122,10 +122,10 @@ class Comment extends Component {
     render() {
         if (!this.state.isLoaded) return
         return (
-            <table width="100%">
+            <table>
                 <tbody>
-                    <tr id={this.state.comment.id} width="100%">
-                        <td valign="top" className="votelinks">
+                    <tr id={this.state.comment.id}>
+                        <td valign="top" className="votelinks" width="0.1%">
                             <center>
                                 {process.env.REACT_APP_API_KEY_NAME === this.state.comment.author ?
                                     <font color="#ff6600">{'\u00A0'}*{'\u00A0\u00A0'}</font> :
@@ -136,7 +136,7 @@ class Comment extends Component {
                             </center>
                         </td>
                         
-                        <td className="subtext">
+                        <td className="subtext" width="100%">
                             <span><a href={"/user?id="+this.state.comment.author}>{this.state.comment.author}</a> </span>
                             <span className="age" >
                                 <a href={"/reply?id="+this.state.comment.id}>{moment.utc(this.state.comment.created_at).local().startOf('seconds').fromNow()}</a> {/*falta pasarle la url*/}

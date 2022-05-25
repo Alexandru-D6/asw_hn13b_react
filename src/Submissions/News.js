@@ -33,7 +33,7 @@ class News extends Component {
               error: a.error,
               message: a.message,
             })
-            console.log(a)
+             
           }).catch(error => {console.log(error)})
           throw Error(res.status + " --> " + res.statusText)
         }else return res.json()
@@ -64,7 +64,7 @@ class News extends Component {
               error: a.error,
               message: a.message,
             })
-            console.log(a)
+             
           }).catch(error => {console.log(error)})
           throw Error(res.status + " --> " + res.statusText)
         }else return res.json()

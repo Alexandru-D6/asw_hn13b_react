@@ -61,7 +61,7 @@ class Reply extends React.Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -86,7 +86,7 @@ class Reply extends React.Component {
                             error: a.error,
                             message: a.message,
                             })
-                            console.log(a)
+                             
                         }).catch(error => {console.log(error)})
                         throw Error(res.status + " --> " + res.statusText)
                         }else return res.json()
@@ -126,7 +126,7 @@ class Reply extends React.Component {
                     error: a.error,
                     message: a.message,
                     })
-                    console.log(a)
+                     
                 }).catch(error => {console.log(error)})
                 throw Error(res.status + " --> " + res.statusText)
                 }else return res.json()
@@ -160,8 +160,15 @@ class Reply extends React.Component {
                 <div className="Profile" align="center">
                     <br></br>
                     <DisplayErrorsNoTable status={this.state.status} error={this.state.error} message={this.state.message}/>
-
-                    <Comment userUpvoted={this.state.upvotedComments.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/>
+                    <table width="85%">
+                        <tbody>
+                            <tr>
+                                <td>
+                                <Comment userUpvoted={this.state.upvotedComments.find(data => data === this.state.comment.id)} title_submission={this.state.title_submission} comment={this.state.comment}/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                     
                     <ReplyForm id_submission={this.state.comment.id_submission}/>
 
